@@ -9,7 +9,7 @@ A streamer opens a small Settings popup for Stream / Video / Audio / Hotkeys / G
 **Inputs**
 
 - Open: gear beside Offline; Close: **Back**, backdrop, Escape
-- Left nav: **Stream**, **Video**, **Audio**, **Hotkeys**, **General**; **Optimize** stub at nav bottom
+- Left nav: **General**, **Stream**, **Video**, **Audio**, **Hotkeys**; **Optimize** stub at nav bottom
 - Stream / Video: existing local + keychain behavior (no Automatic toggle; GPU hint only)
 - Audio: stub default mic + desktop selects → `defaultMicId` / `defaultDesktopId` in app config
 - Hotkeys: three read-only placeholder rows (Go Live/Stop, Mute mic, Next scene)
