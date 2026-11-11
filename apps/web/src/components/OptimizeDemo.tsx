@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { Check, Loader2, Zap } from "lucide-react";
 import "./OptimizeDemo.css";
 
 type Row = { label: string; before: string; after: string };
@@ -31,17 +30,16 @@ export function OptimizeDemo() {
     phase === "done" ? "NVENC · 1080p60 · 6,000 kbps" : "Automatic · not run yet";
 
   return (
-    <section className="demo" aria-labelledby="demo-title">
+    <section id="optimize-demo" className="demo" aria-labelledby="demo-title">
       <div className="demo-card">
         <header className="demo-card-head">
           <div>
             <h2 id="demo-title">Optimize for this PC</h2>
             <p className="demo-lead">
               Same flow as the app: we pick settings, you see what changed, you can
-              undo. Runs entirely in your browser — nothing is sent anywhere.
+              undo. Runs entirely in your browser. Nothing is sent anywhere.
             </p>
           </div>
-          <span className="demo-badge">Interactive</span>
         </header>
 
         <div className="demo-automatic">
@@ -62,12 +60,9 @@ export function OptimizeDemo() {
               className="btn-accent"
               onClick={runOptimize}
               disabled={phase === "running"}
+              aria-busy={phase === "running"}
             >
-              {phase === "running" ? (
-                <Loader2 className="spin" size={18} strokeWidth={1.5} />
-              ) : (
-                <Zap size={18} strokeWidth={1.5} />
-              )}
+              {phase === "running" && <span className="spinner" aria-hidden />}
               Optimize for this PC
             </button>
           </div>
@@ -78,8 +73,10 @@ export function OptimizeDemo() {
         {phase === "done" && (
           <div className="demo-result">
             <div className="demo-result-head">
-              <span>
-                <Check size={18} strokeWidth={1.5} />
+              <span className="demo-result-label">
+                <span className="demo-check" aria-hidden>
+                  ✓
+                </span>
                 Optimized just now
               </span>
               <button type="button" className="btn-ghost" onClick={undo}>

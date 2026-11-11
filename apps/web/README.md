@@ -2,6 +2,8 @@
 
 Static landing page with a client-side **Optimize for this PC** demo. No analytics, no API routes, no forms that send data off-device.
 
+**Design:** [`DESIGN.md`](DESIGN.md) (direction). UI changes follow [antislop](https://github.com/miqdadbadjuber/anti-slop/tree/main/skills/antislop) as the filter.
+
 ## Local
 
 ```bash
