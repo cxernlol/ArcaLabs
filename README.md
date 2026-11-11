@@ -2,7 +2,19 @@
 
 Desktop streaming for **YouTube, Kick, and Twitch** — automatic encoder settings first, manual controls when you need them. Built with **Rust + Tauri** for a small footprint and low RAM use.
 
-**Status:** architecture and design; implementation not started.
+**Status:** P0 desktop scaffold — run from `apps/desktop`.
+
+```bash
+# Desktop (Tauri — requires MSVC Build Tools on Windows)
+cd apps/desktop
+pnpm install
+pnpm tauri dev
+
+# Marketing site (static, client-side optimize demo)
+cd apps/web
+pnpm install
+pnpm dev
+```
 
 ## Documentation
 

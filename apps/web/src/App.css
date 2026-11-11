@@ -1,0 +1,221 @@
+.page {
+  min-height: 100vh;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 1.25rem clamp(1.25rem, 4vw, 2rem);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: inherit;
+  text-decoration: none;
+}
+
+.brand img {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sharp);
+}
+
+.brand strong {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  letter-spacing: -0.02em;
+}
+
+.header-link {
+  font-size: 0.92rem;
+  color: var(--color-secondary-muted);
+  text-decoration: none;
+}
+
+.header-link:hover {
+  color: var(--color-accent);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+  align-items: center;
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 4vw, 2rem);
+}
+
+@media (min-width: 880px) {
+  .hero {
+    grid-template-columns: 1.05fr 0.95fr;
+  }
+}
+
+.hero-copy h1 {
+  margin: 0 0 1rem;
+  font-size: clamp(2.1rem, 4.5vw, 3.15rem);
+  font-weight: 600;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: var(--color-secondary);
+  max-width: 14ch;
+}
+
+.hero-copy p {
+  margin: 0 0 1.5rem;
+  max-width: var(--max-text);
+  color: var(--color-secondary-muted);
+}
+
+.hero-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 0.88rem;
+  color: var(--color-secondary-muted);
+}
+
+.hero-stats strong {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.hero-visual {
+  display: flex;
+  justify-content: center;
+}
+
+.hero-mark {
+  width: min(100%, 320px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  filter: drop-shadow(0 24px 48px color-mix(in srgb, var(--color-accent) 18%, transparent));
+}
+
+.pillars {
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 4vw, 2rem) 3rem;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 720px) {
+  .pillars {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.pillar {
+  padding: 1.25rem 1.35rem;
+  background: color-mix(in srgb, var(--color-secondary) 4%, var(--color-dominant));
+  border-left: 3px solid var(--color-accent);
+  border-radius: var(--radius-sharp);
+}
+
+.pillar h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.pillar p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-secondary-muted);
+}
+
+.steps {
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 2rem clamp(1.25rem, 4vw, 2rem) 3.5rem;
+}
+
+.steps h2 {
+  margin: 0 0 1.5rem;
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.steps ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 1rem;
+}
+
+@media (min-width: 720px) {
+  .steps ol {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.steps li {
+  padding: 1rem 0 0;
+  border-top: 1px solid color-mix(in srgb, var(--color-secondary) 14%, transparent);
+}
+
+.steps li span {
+  display: block;
+  margin-bottom: 0.35rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-accent);
+}
+
+.steps li p {
+  margin: 0;
+  font-size: 0.92rem;
+  color: var(--color-secondary-muted);
+}
+
+.contrast {
+  padding: 2.5rem clamp(1.25rem, 4vw, 2rem);
+  background: color-mix(in srgb, var(--color-accent) 6%, var(--color-dominant));
+}
+
+.contrast-inner {
+  max-width: var(--max-text);
+  margin: 0 auto;
+  text-align: left;
+}
+
+.contrast h2 {
+  margin: 0 0 0.75rem;
+  font-size: 1.2rem;
+  color: var(--color-secondary);
+}
+
+.contrast p {
+  margin: 0;
+  color: var(--color-secondary-muted);
+  font-size: 0.95rem;
+}
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.75rem;
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 2rem clamp(1.25rem, 4vw, 2rem) 2.5rem;
+  font-size: 0.85rem;
+  color: var(--color-secondary-muted);
+  border-top: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
+}

@@ -1,0 +1,22 @@
+/* 60-30-10 from logo: ~60% dark ground, ~30% light structure, ~10% teal accent */
+:root {
+  --color-dominant: #0a0b0c;
+  --color-dominant-elevated: #121416;
+  --color-secondary: #e6f2ef;
+  --color-secondary-muted: #9eb5b0;
+  --color-accent: #1295ab;
+  --color-accent-dim: #0e7a8c;
+  --color-on-accent: #f7fcfb;
+
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --radius-sharp: 2px;
+  --radius-soft: 8px;
+  --max-text: 38rem;
+  --max-page: 72rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion: 0.01ms;
+  }
+}
