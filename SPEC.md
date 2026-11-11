@@ -1,46 +1,56 @@
-# SPEC: Contributor CI/CD
+# SPEC: Settings modal + local crash log
 
 ## 1. Goal & User Story
 
-Contributors and maintainers need automated checks so broken web or Rust desktop changes fail before merge. Production marketing site updates when `main` changes, via existing Vercel Git integration.
+A streamer opens a small Settings popup for Stream / Video / Audio / Hotkeys / General. When the app crashes, a scrubbed local crash log is saved so the product can improve — without storing or sending user secrets or personal data.
 
 ## 2. Inputs & Outputs
 
 **Inputs**
 
-- Push / pull_request targeting `main` (and PRs from forks against `main`)
-- Paths: whole repo (no path filters in v1 — both jobs always run)
+- Open: gear beside Offline; Close: **Back**, backdrop, Escape
+- Left nav: **General**, **Stream**, **Video**, **Audio**, **Hotkeys**; **Optimize** stub at nav bottom
+- Stream / Video: existing local + keychain behavior (no Automatic toggle; GPU hint only)
+- Audio: stub default mic + desktop selects → `defaultMicId` / `defaultDesktopId` in app config
+- Hotkeys: three read-only placeholder rows (Go Live/Stop, Mute mic, Next scene)
+- General: **Start minimized**, **Confirm before Stop stream** toggles; **Copy crash report** button; short note that crash logs stay on device
+- Crash capture: Rust panic hook (+ optional frontend `window.onerror` / unhandledrejection → append via Tauri command)
+- **Network calls: none except the stream connection** (none in v0.1). No Sentry / telemetry / auto-upload.
 
 **Outputs**
 
-- GitHub Actions workflow with two jobs:
-  - **web:** `apps/web` → `pnpm install` → `pnpm lint` → `pnpm build`
-  - **rust:** `apps/desktop/src-tauri` on `windows-latest` → `cargo check`
-- Docs: root README describing how CI works and that Vercel Production Branch = `main`
-- Network calls: GitHub Actions runners only (pnpm registry, crates.io). No telemetry added to the desktop app. Site deploy remains Vercel’s existing Git hook (already allowed for `apps/web`).
+- Settings modal as specified previously
+- Crash file: `{app_config_dir}/crash.log` (user profile app data only — never Program Files)
+- Each entry includes only: timestamp (UTC), app version, OS descriptor, GPU vendor/name if already known locally, last error message, scrubbed stack
+- Scrub always before write: stream key, passwords, `Users\<name>` / home path segments, full ingest URLs (keep host only or redact to `rtmp://[redacted]`), account names
+- `copy_crash_report` (or reuse read + clipboard from UI): returns/copies scrubbed file text for the user to paste; app never sends it
+- Stream key remains OS keychain only (`arcalabs` / `stream-key/{platform}`)
 
 ## 3. Acceptance Criteria
 
-- [ ] `.github/workflows/ci.yml` exists and runs on `pull_request` and `push` to `main`
-- [ ] Web job fails the workflow if lint or build fails
-- [ ] Rust job fails the workflow if `cargo check` fails on Windows
-- [ ] README documents CI jobs and that production site tracks `main` via Vercel
-- [ ] Desktop installer / GitHub Releases workflow is not added
-- [ ] No new analytics or phone-home deps in desktop
+- [ ] Settings modal: nav pages + Optimize stub; Back / backdrop / Esc close
+- [ ] Stream + Video behavior as current (keychain; editable video fields; no Automatic card)
+- [ ] Audio / Hotkeys / General pages as above; config persists locally
+- [ ] Intentional test panic or thrown error appends a scrubbed line/block to `crash.log` under app config dir
+- [ ] `crash.log` never contains a stream key or a raw `C:\Users\…` path
+- [ ] Copy crash report puts scrubbed text on the clipboard; no network call
+- [ ] No crash-reporting / telemetry dependency added
+- [ ] Lucide + Inter + `design.md` tokens
 
 ## 4. Edge Cases & Error States
 
 | Situation | Behavior |
 |---|---|
-| PR only touches docs | Both jobs still run (simple v1) |
-| `cargo check` needs Windows tooling | Use `windows-latest`; fail with visible Rust/linker errors if env broken |
-| Fork PR | Same CI; no secrets required for these jobs |
-| Vercel Production Branch not `main` | Document dashboard fix; CI does not change Vercel config via API |
+| Config / crash write fails | Inline error or silent skip for crash hook (never crash-loop); previous config kept |
+| Crash file missing | Copy report shows “No crash log yet” |
+| Crash file huge | Keep last ~256 KB (trim oldest) |
+| Hotkey row clicked | Non-editable in v0.1 |
+| Optimize clicked | Disabled / not in v0.1 |
 
 ## 5. Out of Scope
 
-- Tauri installer / release builds (later)
-- Desktop frontend `pnpm build` / full `tauri build`
-- Branch protection API setup (document only: enable required checks in GitHub settings)
-- Path-filtered jobs
-- Changing GitHub About / domain redirects
+- Automatic upload of crash logs to any server or GitHub
+- Minidumps / Windows Error Reporting integration
+- Real WASAPI enum, OS hotkey registration, live Start-minimized behavior
+- Advanced / themes / plugins
+- Any network call from the desktop app
