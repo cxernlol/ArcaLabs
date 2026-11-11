@@ -1,4 +1,4 @@
-# ArcaLabs
+# Arca Labs
 
 Lightweight desktop streaming for **YouTube**, **Kick**, and **Twitch**.
 
