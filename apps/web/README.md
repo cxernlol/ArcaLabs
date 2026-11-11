@@ -1,32 +1,28 @@
-# React + TypeScript + Vite
+# Arca Labs — marketing site
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Static landing page with a client-side **Optimize for this PC** demo. No analytics, no API routes, no forms that send data off-device.
 
-Currently, two official plugins are available:
+## Local
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm install
+pnpm dev
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Deploy on Vercel
+
+1. [Import](https://vercel.com/new) the `cxernlol/ArcaLabs` repository.
+2. Set **Root Directory** to `apps/web` (required — the repo is a monorepo).
+3. Vercel should detect **Vite**; `vercel.json` sets install/build/output.
+4. Deploy. Production track is usually `main` after merge; branch deploys get preview URLs.
+
+| Setting | Value |
+|--------|--------|
+| Root Directory | `apps/web` |
+| Install Command | `pnpm install` |
+| Build Command | `pnpm build` |
+| Output Directory | `dist` |
+
+**Privacy:** Do not add Vercel Analytics or Speed Insights unless you add an explicit opt-in spec — matches `AGENTS.md`.
+
+After the first deploy, open the preview URL and run through **Optimize → Undo** to confirm the demo and that `/logo.png` loads.

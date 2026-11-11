@@ -16,6 +16,11 @@ pnpm install
 pnpm dev
 ```
 
+### Vercel
+
+Import the repo in Vercel and set **Root Directory** to [`apps/web`](apps/web). See [`apps/web/README.md`](apps/web/README.md).
+```
+
 ## Documentation
 
 | Doc | Purpose |
