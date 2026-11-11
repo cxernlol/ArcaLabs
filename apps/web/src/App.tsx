@@ -42,6 +42,15 @@ export default function App() {
 
         <OptimizeDemo />
 
+        <section className="flow" aria-labelledby="flow-title">
+          <h2 id="flow-title">Workflow</h2>
+          <iframe
+            className="flow-frame"
+            src="/flow.html"
+            title="Arca Labs workflow: platform, stream key, optimize, then Go Live later"
+          />
+        </section>
+
         <section className="first-run" aria-labelledby="first-run-title">
           <h2 id="first-run-title">First time you open the app</h2>
           <ol className="first-run-list">
