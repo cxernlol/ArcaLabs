@@ -2,7 +2,7 @@
 
 Lightweight desktop streaming for **YouTube**, **Kick**, and **Twitch**.
 
-ArcaLabs picks encoder, resolution, frame rate, and bitrate for the user’s PC automatically, with manual controls available underneath. The desktop app is built with **Rust** and **Tauri** for a small footprint and low RAM use. **It collects no user data.**
+Arcalabs picks encoder, resolution, frame rate, and bitrate for the user’s PC automatically, with manual controls available underneath. The desktop app is built with **Rust** and **Tauri** for a small footprint and low RAM use. **It collects no user data.**
 
 **Website:** [arcalabs.vercel.app](https://arcalabs.vercel.app) · **Contributing:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
