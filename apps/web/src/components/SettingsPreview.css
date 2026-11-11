@@ -1,0 +1,25 @@
+.settings-preview {
+  margin: 0 0 1.5rem;
+  padding: 1rem 1.1rem;
+  background: color-mix(in srgb, var(--color-dominant) 55%, black);
+  border: 1px solid color-mix(in srgb, var(--color-secondary) 10%, transparent);
+  border-radius: var(--radius-sharp);
+}
+
+.settings-preview-label {
+  margin: 0 0 0.65rem;
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  color: var(--color-secondary-muted);
+  letter-spacing: 0.02em;
+}
+
+.settings-preview-code {
+  margin: 0;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: var(--color-secondary-muted);
+  white-space: pre-wrap;
+  overflow-x: auto;
+}

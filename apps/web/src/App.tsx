@@ -8,108 +8,92 @@ export default function App() {
     <div className="page">
       <header className="site-header">
         <a className="brand" href="/">
-          <img src="/logo.png" width={44} height={44} alt="Arca Labs" />
-          <strong>Arca Labs</strong>
+          <img
+            src="/logo.png"
+            width={44}
+            height={44}
+            alt="Arca Labs"
+            fetchPriority="high"
+          />
+          <span className="brand-name">Arca Labs</span>
         </a>
-        <a className="header-link" href={GITHUB} rel="noopener noreferrer">
-          Source on GitHub
-        </a>
+        <nav className="site-nav" aria-label="Page">
+          <a href="#optimize-demo">Try optimize</a>
+          <a href={GITHUB} rel="noopener noreferrer">
+            GitHub
+          </a>
+        </nav>
       </header>
 
-      <section className="hero">
-        <div className="hero-copy">
-          <h1>Stream without learning encoders</h1>
-          <p>
-            Arcalabs is lightweight streaming for YouTube, Kick, and Twitch. It
-            picks resolution, frame rate, and bitrate for your PC — you confirm or
-            undo, then go live.
+      <main id="main-content">
+        <section className="hero" aria-labelledby="hero-title">
+          <div className="hero-copy">
+            <p className="hero-kicker">Arca Labs · Windows streaming</p>
+            <h1 id="hero-title">
+              Go live without learning encoders
+            </h1>
+            <p className="hero-lede">
+              Arcalabs is a Windows streaming app for YouTube, Kick, and Twitch.
+              It picks resolution, frame rate, and bitrate for your PC. You review
+              the changes, undo if you want, then hit Go Live.
+            </p>
+            <p className="hero-note">
+              Built with Rust and Tauri on WebView2, so idle RAM stays with capture
+              and encode, not a second Chromium install. The desktop app still
+              collects no telemetry.
+            </p>
+            <a className="hero-cta" href="#optimize-demo">
+              Try the optimize flow
+            </a>
+          </div>
+          <div className="hero-visual" aria-hidden>
+            <div className="hero-wedge" />
+            <img
+              className="hero-mark"
+              src="/logo.png"
+              width={280}
+              height={280}
+              alt=""
+              fetchPriority="high"
+            />
+          </div>
+        </section>
+
+        <OptimizeDemo />
+
+        <section className="first-run" aria-labelledby="first-run-title">
+          <h2 id="first-run-title">First time you open the app</h2>
+          <p className="first-run-intro">
+            The onboarding in the desktop build matches what you see below: about
+            a minute, three concrete steps, then you are ready to stream.
           </p>
-          <ul className="hero-stats">
+          <ul className="first-run-list">
             <li>
-              <strong>Rust + Tauri</strong>
-              System webview, not a bundled Chromium stack
+              <span className="first-run-label">Where you stream</span>
+              YouTube, Kick, or Twitch. One platform at a time while live.
             </li>
             <li>
-              <strong>~1 min</strong>
-              First-run setup to live
+              <span className="first-run-label">Stream key</span>
+              Paste once. Stored in the Windows credential locker, not a config file.
             </li>
             <li>
-              <strong>Zero telemetry</strong>
-              No analytics on this site or in the app
+              <span className="first-run-label">Optimize</span>
+              Run it on your hardware, read the diff, finish setup, go live.
             </li>
           </ul>
-        </div>
-        <div className="hero-visual">
-          <img
-            className="hero-mark"
-            src="/logo.png"
-            width={320}
-            height={320}
-            alt=""
-            aria-hidden
-          />
-        </div>
-      </section>
-
-      <section className="pillars" aria-label="Why Arcalabs">
-        <article className="pillar">
-          <h3>Light at idle</h3>
-          <p>
-            Electron ships a full browser. Tauri uses WebView2 on Windows so your
-            RAM goes to capture and encode, not an idle Chromium process.
-          </p>
-        </article>
-        <article className="pillar">
-          <h3>Automatic first</h3>
-          <p>
-            Manual encoder fields stay one level down. You see what changed, not a
-            wall of jargon.
-          </p>
-        </article>
-        <article className="pillar">
-          <h3>Privacy default</h3>
-          <p>
-            Hardware detection stays on your machine. The only outbound connection
-            when you stream is to the platform you chose.
-          </p>
-        </article>
-      </section>
-
-      <OptimizeDemo />
-
-      <section className="steps">
-        <h2>Three steps. About a minute.</h2>
-        <ol>
-          <li>
-            <span>Step 1</span>
-            <p>Choose YouTube, Kick, or Twitch.</p>
-          </li>
-          <li>
-            <span>Step 2</span>
-            <p>Paste your stream key. Stored in the OS keychain, not plain text.</p>
-          </li>
-          <li>
-            <span>Step 3</span>
-            <p>Optimize for this PC, review the changes, finish setup, Go Live.</p>
-          </li>
-        </ol>
-      </section>
-
-      <section className="contrast" aria-labelledby="electron-title">
-        <div className="contrast-inner">
-          <h2 id="electron-title">Why not Electron?</h2>
-          <p>
-            Electron is excellent when you need its ecosystem. For a streamer tool
-            that should stay quiet in the tray and small on RAM, shipping Chromium
-            in every install works against you. Arcalabs keeps the UI thin and puts
-            weight in Rust where capture and encode belong.
-          </p>
-        </div>
-      </section>
+        </section>
+      </main>
 
       <footer className="site-footer">
-        <span>Arca Labs · Windows-first desktop app in development</span>
-        <a href={GITHUB}>GitHub</a>
+        <p className="footer-copy">
+          <span>Windows-first desktop app in development.</span>
+          <span className="footer-privacy">
+            This page uses Vercel Web Analytics. The Arcalabs app does not.
+          </span>
+        </p>
+        <a href={GITHUB} rel="noopener noreferrer">
+          ArcaLabs on GitHub
+        </a>
       </footer>
     </div>
   );
