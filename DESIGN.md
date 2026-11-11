@@ -5,6 +5,7 @@ Design direction for the Arcalabs desktop app and its marketing site. Written to
 > **Status:** v0.1 offline prototype. There is no capture, no RTMP publish and no Go Live yet.
 > Hex values and pixel measurements are estimated from screenshots (frame ≈ 1372 × 882). Treat them as starting tokens and verify against source.
 > Contrast ratios in section 3 were calculated, not estimated.
+> Values live in `tokens.css` next to this file. This file holds the intent, `tokens.css` holds the values. Keep them in sync.
 
 ---
 
@@ -20,13 +21,13 @@ These need the owner's answer. Agents must not pick for the owner. If a build co
 | 0.4 | **Dark only** | Dark only, no light theme. | Dark must be a decision, not a trend. Write the reason. |
 | 0.5 | **Product name** | "Arcalabs" (title bar), "Arca Labs" (site, nav), "ArcaLabs" (settings text, repo). | Pick one spelling and use it everywhere. |
 
-Reasons to be written by the owner:
+Reasons (proposed drafts, not final; edit or replace):
 
-- 0.1 Accent: _______________
-- 0.2 Typeface: _______________
-- 0.3 Icons: _______________
-- 0.4 Dark only: _______________
-- 0.5 Name: _______________
+- 0.1 Accent: **open.** Needs your call: purple in the app, teal on the site. Decide from whichever logo is canonical, then update `tokens.css`.
+- 0.2 Typeface: keep Inter. One family with tabular figures keeps the status bar and timer steady, stays legible at small sizes on every OS, and is bundled once for both app and site. Reconsider Segoe UI Variable only if installer size matters.
+- 0.3 Icons: keep one set (Lucide) at 1.5 stroke so icons stay as quiet as the chrome. Drop the icon on Optimize; the label is enough.
+- 0.4 Dark only: streams are set up in dim rooms and the preview should be the brightest thing on screen. Light chrome would compete with it.
+- 0.5 Name: **open.** One spelling everywhere.
 
 ---
 
@@ -39,6 +40,20 @@ Reasons to be written by the owner:
 **Primary job:** Get from launch to "Live" in as few steps as possible. No duration is promised in the UI or on the site until a real first run has been timed.
 
 **Core idea:** The app chooses the encoder, resolution, frame rate and bitrate for the PC. The interface presents those choices as a result to confirm or undo. It does not present them as a form to fill in.
+
+### 1.1 Identity and direction
+
+Proposed direction. Edit freely; everything else in this file follows from it.
+
+- **Personality:** calm, plain-spoken, exact. A tool that stays out of the way and says what it did.
+- **Mood:** a quiet dark desk during a stream. The preview is the light source and the chrome recedes.
+- **Memorable element, one per surface:**
+  - App: the status bar. It shows the app's own CPU and RAM, which is the evidence for "lightweight".
+  - Site: the Before / After diff with Undo.
+- **The arc:** the three-arc mark is the logo and nothing else. It is not repeated as decoration, background or pattern.
+- **Voice:** short verbs, concrete nouns, no hype. It states what changed and what to do next.
+- **Should not feel like:** a gamer overlay or an OBS clone. No RGB, neon, angled shapes or skins. Not a generic SaaS landing page, and not a terminal costume.
+- **Test:** if a screen could belong to any other streaming app by swapping the logo, it is not designed yet.
 
 ---
 
@@ -508,7 +523,7 @@ The site explains the app, is honest about its status, and shares the app's toke
 4. **First-run steps:** three numbered steps (a real sequence), full width, with the real setup screenshot beside or below.
 5. **Footer:** project status line, GitHub link, and the analytics disclosure.
 
-Only the sections above. No testimonials, no logo bar, no pricing, no "trusted by", no feature-card grid.
+Only the sections above. No testimonials, no logo bar, no pricing, no "trusted by", no feature-card grid, no numbered all-caps feature labels (numbers are only for the three setup steps).
 
 ### 14.2 Demo
 
@@ -549,6 +564,21 @@ None of these have been measured yet. Report LCP, INP and CLS only after a real 
 - **Quality floor:** responsive down to mobile, visible focus, `prefers-reduced-motion` respected, keyboard-only use works.
 - **Robots and sitemap:** `robots.txt` and `sitemap.xml` in `public/`.
 
+### 14.6 Copy pattern
+
+Each statement on the site has two parts: the problem in the user's own terms, then what the app does about it. Two sentences, concrete nouns, no adjectives.
+
+- Example (write in the present tense only for what ships; use "planned" for stubs): "Picking an encoder, resolution and bitrate usually means reading forum threads for your GPU. Arcalabs detects your hardware, picks them, shows what changed, and lets you undo it."
+- The headline says what the app does. It does not claim more than the app does (no scale, speed or "hundreds of" claims without a measurement).
+- Social proof is real or absent. No invented names, roles, quotes, star counts or user counts. A prototype with no users shows none.
+
+### 14.7 After the first release
+
+- **Download block:** one line per supported OS and architecture, linking to the release. Windows x64 only until another build exists. Show the version and file size.
+- **Footer:** license (GPL-3.0), link to the releases page, link to a **Privacy** page, GitHub, and the analytics disclosure. The privacy page states what the app collects (nothing), what the site collects (page analytics), and that the stream key never leaves the device. A terms page is only added if the site ever asks for sign-ups or payment.
+- **Analytics:** keep the lightest option that answers a real question. The app has none, so the site should not load a tag manager.
+- **Content in the HTML:** the page text, hero image and download links are in the initial HTML, so they are readable without running scripts.
+
 ---
 
 ## 15. Implementation status (v0.1)
@@ -580,4 +610,6 @@ The screenshots show the app differs from this document in these places. Decide 
 - Live dot explicitly has no glow and no pulse.
 - Removed the "about a minute" claim until it is timed.
 - Added a minimum text size, stream-key field behavior, one wording for the keychain, and don'ts for decorative badges, eyebrows, emoji, AI icons, left stripes and arrows.
+- Added section 1.1 (identity and direction), a `tokens.css` companion, and proposed reasons for the open decisions.
+- Added website copy pattern (14.6) and post-release rules (14.7), and a rule against numbered all-caps feature labels.
 - Removed the "Lucide required" wording. It is now "pending decision 0.3" because the set must be a written choice.
