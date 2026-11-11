@@ -2,6 +2,8 @@
 
 Desktop streaming for **YouTube, Kick, and Twitch** — automatic encoder settings first, manual controls when you need them. Built with **Rust + Tauri** for a small footprint and low RAM use.
 
+**Site:** [arcalabs.vercel.app](https://arcalabs.vercel.app)
+
 **Status:** P0 desktop scaffold — run from `apps/desktop`.
 
 ```bash

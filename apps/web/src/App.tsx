@@ -28,7 +28,10 @@ export default function App() {
       <main id="main-content">
         <section className="hero" aria-labelledby="hero-title">
           <div className="hero-copy">
-            <h1 id="hero-title">Go live without learning encoders</h1>
+            <p className="hero-kicker">Arca Labs · Windows streaming</p>
+            <h1 id="hero-title">
+              Go live without learning encoders
+            </h1>
             <p className="hero-lede">
               Arcalabs is a Windows streaming app for YouTube, Kick, and Twitch.
               It picks resolution, frame rate, and bitrate for your PC. You review

@@ -1,6 +1,6 @@
 # Arca Labs marketing site — design direction
 
-Filter: [antislop](https://github.com/miqdadbadjuber/anti-slop) (purpose test + delivery gate). This file is the soul; antislop is the filter.
+Filter: [antislop](https://github.com/miqdadbadjuber/anti-slop) core + [antislop-ui](https://github.com/miqdadbadjuber/anti-slop/blob/main/skills/antislop-ui/SKILL.md) for visual work. This file is the soul; skills are the filter.
 
 ## Identity
 
@@ -24,9 +24,14 @@ Muted supporting text: `#9eb5b0` (must stay AA on ground).
 
 Quiet, technical, confident. Dark ground is brand (logo), not generic “tech dark mode.”
 
+## Layout reference
+
+[antislop.ai.id](https://antislop.ai.id/) inspired structure only: editorial hero, **before/after** comparison, read-only config preview. Colors and logo remain Arca (60/30/10 teal).
+
 ## Layout
 
 - One primary interactive proof: the **optimize demo** (real states: idle, running, done).
+- Side-by-side **Before / After** columns plus monospace **read-only preview** panel.
 - No testimonial, FAQ, pricing, or logo bar sections.
 - “First run” copy is a single stacked block, not three equal columns.
 
@@ -44,8 +49,11 @@ ENERGY 2 / RHYTHM 2 / MOTION 1
 - Optimize demo stays client-side; nothing from that flow is sent to our servers.
 - Desktop app privacy rules in repo-root `AGENTS.md` are unchanged.
 
-## Purpose notes (antislop)
+## Purpose notes (antislop-ui)
 
-- Diagonal hero wedge: echoes logo triangle, not a dot grid.
-- Accent border on demo card: hierarchy for the only interactive proof.
-- Check/spinner icons in demo: loading and success feedback only (no decorative lightning).
+- **Accent placement (R-29):** Teal only on primary CTA **Optimize for this PC** and optimized values in the After column. Links, borders, and labels stay neutral.
+- **Hero wedge:** Flat low-opacity fill + triangle clip, echoes logo. Not a purple/cyan gradient (R-01).
+- **Settings preview:** Flat panel mimicking on-disk config keys, not a fake terminal window (R-06, R-38).
+- **JetBrains Mono:** Confined to the preview block (readable config), not page headings.
+- **Motion (MOTION 1):** Spinner while running only; no infinite pulses (R-19).
+- **Radii (R-11):** 2px controls, 8px card; no universal pills.
