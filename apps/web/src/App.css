@@ -193,6 +193,18 @@
   text-transform: none;
 }
 
+.footer-copy {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.footer-privacy {
+  font-size: 0.8rem;
+  color: var(--color-secondary-muted);
+}
+
 .site-footer {
   display: flex;
   flex-wrap: wrap;

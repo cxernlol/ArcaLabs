@@ -4,7 +4,9 @@ Instructions for any AI coding agent (Claude Code, Codex, Gemini CLI, Cursor, Co
 
 ## Project overview
 
-Arcalabs is a desktop streaming app for YouTube, Kick and Twitch, built with **Tauri** (Rust core, system webview frontend). It picks the encoder, resolution, frame rate and bitrate for the user's PC automatically, with manual control available underneath. It collects no user data.
+Arcalabs is a desktop streaming app for YouTube, Kick and Twitch, built with **Tauri** (Rust core, system webview frontend). It picks the encoder, resolution, frame rate and bitrate for the user's PC automatically, with manual control available underneath. **The desktop app collects no user data.**
+
+The **marketing site** (`apps/web`) is separate: it may use **Vercel Web Analytics** (`@vercel/analytics`) for page views on the hosted site only. Do not add analytics, Speed Insights, or other third-party trackers to `apps/desktop` or any Rust crate unless an approved spec says so.
 
 - **Icons:** Lucide only.
 - **Font:** Inter, bundled locally.
@@ -39,7 +41,9 @@ Treat a request as vague, and ask before building, when any of these are true:
 
 ## Privacy rules (non-negotiable)
 
-Arcalabs does not collect user data. These rules apply to every feature, every dependency and every spec.
+These rules apply to the **desktop app** (`apps/desktop`, `crates/*`), every Tauri feature, and every streaming-related spec. They do **not** forbid Vercel Web Analytics on `apps/web` as documented above.
+
+The desktop app does not collect user data.
 
 - **No data collection.** No telemetry, analytics, usage tracking, crash reporting, device fingerprinting or "anonymous" statistics. This includes hardware info gathered by the optimize routine: it is read locally, used locally, and never sent anywhere.
 - **No automatic reporting.** The app never sends logs, errors, crash dumps, settings, system info or any other data to GitHub (issues, gists, API) or to any other remote service, and never opens issues or pull requests on the user's behalf.

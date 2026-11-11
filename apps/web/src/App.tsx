@@ -36,8 +36,8 @@ export default function App() {
             </p>
             <p className="hero-note">
               Built with Rust and Tauri on WebView2, so idle RAM stays with capture
-              and encode, not a second Chromium install. No telemetry on this site
-              or in the app.
+              and encode, not a second Chromium install. The desktop app still
+              collects no telemetry.
             </p>
             <a className="hero-cta" href="#optimize-demo">
               Try the optimize flow
@@ -82,7 +82,12 @@ export default function App() {
       </main>
 
       <footer className="site-footer">
-        <span>Windows-first desktop app in development</span>
+        <p className="footer-copy">
+          <span>Windows-first desktop app in development.</span>
+          <span className="footer-privacy">
+            This page uses Vercel Web Analytics. The Arcalabs app does not.
+          </span>
+        </p>
         <a href={GITHUB} rel="noopener noreferrer">
           ArcaLabs on GitHub
         </a>

@@ -38,6 +38,12 @@ Optimize card reveal only. Respect `prefers-reduced-motion`.
 
 ENERGY 2 / RHYTHM 2 / MOTION 1
 
+## Privacy (site only)
+
+- **Vercel Web Analytics** on this marketing deployment: page views, no ties to the desktop app.
+- Optimize demo stays client-side; nothing from that flow is sent to our servers.
+- Desktop app privacy rules in repo-root `AGENTS.md` are unchanged.
+
 ## Purpose notes (antislop)
 
 - Diagonal hero wedge: echoes logo triangle, not a dot grid.
