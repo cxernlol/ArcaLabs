@@ -1,47 +1,39 @@
-# Arca Labs marketing site — design direction
+# Arca Labs marketing site
 
-## Identity
+Direction for `apps/web`. Dark ground is the logo, not a generic tech theme. One accent: logo teal `#1295ab`. Red is live state on the desktop app only.
 
-Lightweight Windows streaming. Logo: angular “A”, teal on near-black.
+## Palette
 
-## Palette (60 / 30 / 10)
+| Role | Hex |
+|------|-----|
+| Ground | `#0a0b0c` |
+| Type | `#e6f2ef` |
+| Muted (AA on ground) | `#9eb5b0` |
+| Accent | `#1295ab` |
 
-| Share | Role | Hex |
-|-------|------|-----|
-| 60% | Ground | `#0a0b0c` |
-| 30% | Structure (type, panels) | `#e6f2ef` |
-| 10% | Accent (logo teal) | `#1295ab` |
+The page is near-black, a little lighter at the top so the header has air. Teal is not used on this screen. The primary button is the light type color.
 
-Muted: `#9eb5b0` (AA on ground). Red is for live state on the **desktop app** only — not used on this site.
+## Type
 
-## Typography
+DM Sans 400/500/600. Not Inter. No monospace on this page.
 
-**DM Sans** (400/500/600). Geometric, readable, not Inter/Geist. No monospace costume on the marketing page.
+Radii: 6px controls, 10px panels. No shadow, glow, or gradient.
 
-## Layout
+## Page, in order
 
-1. Header (logo wordmark + Optimize / GitHub)
-2. Honest prototype banner
-3. Brand title + one lede
-4. **Hero: Before/After optimize demo** (the one memorable element)
-5. First-run numbered steps (real sequence)
-6. Short decisions changelog (specificity over template filler)
-7. Footer
+1. Header, one row: wordmark, Workflow in the center, GitHub on the right.
+2. One centered headline, one paragraph, and a GitHub button. No encoder table, no numbered steps, no download button. v0.1.0 has no installer.
+3. The workflow diagram, on this same page. Scrolling through it moves the view along the nodes, then back out to the whole diagram. The header link scrolls to it. Reduced motion keeps the diagram still.
+4. One footer line: prototype, license, analytics.
 
-No logo wedge, eyebrow badge, YAML preview, testimonials, FAQ, or pricing.
+No decisions changelog, no YAML preview, no logo art, no eyebrow, no testimonials, no pricing.
+
+`/flow.html` sends people back to the diagram on the homepage.
 
 ## Motion
 
-Optimize spinner while running only. Respect `prefers-reduced-motion`.
+Nothing moves. `prefers-reduced-motion` still turns off smooth scrolling.
 
-## Radii
+## Privacy
 
-6px controls, 10px panels.
-
-## Accent placement
-
-Teal only on **Optimize for this PC** and optimized After values. Nav links stay neutral.
-
-## Privacy (site only)
-
-Vercel Web Analytics on the hosted site. Desktop app: no telemetry (see `docs/internal/AGENTS.md`).
+Vercel Web Analytics on this site only. The desktop app collects nothing (`docs/internal/AGENTS.md`).

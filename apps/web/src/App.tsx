@@ -1,120 +1,121 @@
-import { OptimizeDemo } from "./components/OptimizeDemo";
+import { useEffect, useRef } from "react";
 import "./App.css";
+
+const FOCUS_STEPS = [
+  "streamer",
+  "platform",
+  "key",
+  "optimize",
+  "review",
+  "golive",
+  "",
+] as const;
 
 const GITHUB = "https://github.com/cxernlol/ArcaLabs";
 
+function GitHubMark() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+      <path
+        fill="currentColor"
+        d="M8 0C3.58 0 0 3.58 0 8a8 8 0 0 0 5.47 7.59c.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82A7.7 7.7 0 0 1 8 3.87a7.7 7.7 0 0 1 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+      />
+    </svg>
+  );
+}
+
 export default function App() {
+  const frameRef = useRef<HTMLIFrameElement>(null);
+
+  useEffect(() => {
+    const section = document.getElementById("workflow");
+    const frame = frameRef.current;
+    if (!section || !frame) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let last = -1;
+    const post = (id: string) => {
+      frame.contentWindow?.postMessage(
+        { type: "arca-focus", id },
+        window.location.origin,
+      );
+    };
+    const send = () => {
+      const rect = section.getBoundingClientRect();
+      const stuck = rect.top <= 1 && rect.bottom >= window.innerHeight - 1;
+      if (!stuck) {
+        if (last !== -1) {
+          last = -1;
+          post("");
+        }
+        return;
+      }
+      const total = section.offsetHeight - window.innerHeight;
+      const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 0));
+      const progress = total > 0 ? scrolled / total : 0;
+      const index = Math.min(FOCUS_STEPS.length - 1, Math.floor(progress * FOCUS_STEPS.length));
+      if (index === last) return;
+      last = index;
+      post(FOCUS_STEPS[index]);
+    };
+
+    send();
+    frame.addEventListener("load", send);
+    window.addEventListener("scroll", send, { passive: true });
+    window.addEventListener("resize", send);
+    return () => {
+      frame.removeEventListener("load", send);
+      window.removeEventListener("scroll", send);
+      window.removeEventListener("resize", send);
+    };
+  }, []);
+
   return (
     <div className="page">
       <header className="site-header">
         <a className="brand" href="/">
-          <img
-            src="/logo.png"
-            width={36}
-            height={36}
-            alt=""
-            fetchPriority="high"
-          />
+          <img src="/logo.png" width={28} height={28} alt="" fetchPriority="high" />
           <span className="brand-name">Arca Labs</span>
         </a>
         <nav className="site-nav" aria-label="Page">
-          <a href="#optimize-demo">Optimize</a>
-          <a href={GITHUB} rel="noopener noreferrer">
-            GitHub
-          </a>
+          <a href="#workflow">Workflow</a>
         </nav>
+        <a className="header-github" href={GITHUB} rel="noopener noreferrer">
+          <GitHubMark />
+          GitHub
+        </a>
       </header>
 
-      <p className="proto-banner" role="status">
-        Prototype — no Go Live yet. Run the desktop shell from source; this page
-        shows the optimize flow only.
-      </p>
-
       <main id="main-content">
-        <section className="hero-lead" aria-labelledby="hero-title">
-          <h1 id="hero-title">Arca Labs</h1>
-          <p className="hero-lede">
-            Windows streaming for YouTube, Kick, and Twitch. One tap picks
-            encoder settings for your PC — you review the diff, then go live
-            when the app can.
+        <section className="hero">
+          <h1>The stream key stays on your PC.</h1>
+          <p className="lede">
+            Windows prototype for YouTube, Kick, and Twitch. Encoder settings
+            come from your hardware. This build cannot go live.
           </p>
+          <div className="hero-actions">
+            <a className="btn btn-primary" href={GITHUB} rel="noopener noreferrer">
+              GitHub
+            </a>
+          </div>
         </section>
-
-        <OptimizeDemo />
-
-        <section className="flow" aria-labelledby="flow-title">
-          <h2 id="flow-title">Workflow</h2>
-          <iframe
-            className="flow-frame"
-            src="/flow.html"
-            title="Arca Labs workflow: platform, stream key, optimize, then Go Live later"
-          />
-        </section>
-
-        <section className="first-run" aria-labelledby="first-run-title">
-          <h2 id="first-run-title">First time you open the app</h2>
-          <ol className="first-run-list">
-            <li>
-              <span className="first-run-step">1</span>
-              <div>
-                <span className="first-run-label">Where you stream</span>
-                <p>YouTube, Kick, or Twitch. One platform at a time while live.</p>
-              </div>
-            </li>
-            <li>
-              <span className="first-run-step">2</span>
-              <div>
-                <span className="first-run-label">Stream key</span>
-                <p>
-                  Paste once. Stored in the Windows credential locker, not a
-                  config file.
-                </p>
-              </div>
-            </li>
-            <li>
-              <span className="first-run-step">3</span>
-              <div>
-                <span className="first-run-label">Optimize</span>
-                <p>
-                  Run it on your hardware, read the diff, finish setup. Go Live
-                  lands in a later build.
-                </p>
-              </div>
-            </li>
-          </ol>
-        </section>
-
-        <section className="decisions" aria-labelledby="decisions-title">
-          <h2 id="decisions-title">Decisions we actually made</h2>
-          <ul className="decisions-list">
-            <li>
-              Brand accent is logo teal only — not a second violet for the site.
-            </li>
-            <li>
-              The optimize Before/After is the hero; no decorative logo art.
-            </li>
-            <li>
-              Stream keys stay in the OS keychain. Crash logs stay local and
-              scrubbed; nothing uploads.
-            </li>
-            <li>
-              Desktop ships as a source prototype (v0.1). No installer in this
-              release.
-            </li>
-          </ul>
+        <section id="workflow" className="workflow" aria-label="Workflow">
+          <div className="workflow-sticky">
+            <iframe
+              ref={frameRef}
+              title="Arca Labs workflow"
+              scrolling="no"
+              src="/diagram.html?embed=1&theme=dark"
+            />
+          </div>
         </section>
       </main>
 
       <footer className="site-footer">
-        <p className="footer-copy">
-          <span>Windows-first · v0.1 prototype · GPL-3.0</span>
-          <span className="footer-privacy">
-            This page uses Vercel Web Analytics. The desktop app does not.
-          </span>
+        <p>
+          v0.1 prototype. GPL-3.0. This page uses Vercel Web Analytics. The
+          desktop app does not.
         </p>
-        <a href={GITHUB} rel="noopener noreferrer">
-          ArcaLabs on GitHub
-        </a>
       </footer>
     </div>
   );

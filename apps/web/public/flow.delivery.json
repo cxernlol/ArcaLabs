@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "c26b6aaf-020b-41f2-a4d2-cea7a7faf0d1",
+  "status": "current",
+  "command": "deliver",
+  "type": "workflow",
+  "input": "C:\\Users\\User\\Desktop\\Arcalabs\\.archify\\workflow-site-flow-20261112-054707\\candidate.json",
+  "output": "C:\\Users\\User\\Desktop\\Arcalabs\\apps\\web\\public\\flow.html",
+  "specification": {
+    "sha256": "17a14aecff605dd3d755170e1191f5884e8634e3547a99dd197f1ee76c7330a3",
+    "bytes": 2122
+  },
+  "artifact": {
+    "sha256": "8471f4ec8950d6da200682f89ae0067bb81d9300ba24923822943320603e8d01",
+    "bytes": 836490
+  }
+}
