@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-@AGENTS.md
+@docs/internal/AGENTS.md
 
 ## Core rules (summary)
 
@@ -10,4 +10,4 @@
 4. **Stream key** lives in the OS keychain, never in plain text, config or logs.
 5. **UI** follows `design.md` (Lucide icons only, Inter bundled locally, nested radius = outer radius − gap).
 
-Full rules, workflow and the `SPEC.md` template are in `AGENTS.md`. If anything here conflicts with `AGENTS.md`, `AGENTS.md` wins.
+Full rules, workflow and the `SPEC.md` template are in `docs/internal/AGENTS.md`. If anything here conflicts with that file, `AGENTS.md` wins.

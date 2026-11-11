@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { OPTIMIZED, type Phase } from "./optimizeTypes";
-import { SettingsPreview } from "./SettingsPreview";
 import "./OptimizeDemo.css";
 
 export function OptimizeDemo() {
@@ -23,16 +22,14 @@ export function OptimizeDemo() {
   return (
     <section id="optimize-demo" className="demo" aria-labelledby="demo-title">
       <header className="demo-section-head">
-        <h2 id="demo-title">Before & after: optimize</h2>
+        <h2 id="demo-title">Before & after</h2>
         <p>
-          Same flow as the desktop app: one tap, a visible diff, undo if you want.
-          Runs in your browser only.
+          Same optimize flow as the desktop app. Runs in your browser only —
+          nothing is sent.
         </p>
       </header>
 
       <div className="demo-card">
-        <SettingsPreview phase={phase} />
-
         <div className="compare-grid" aria-live="polite">
           <div className="compare-col">
             <h3 className="compare-col-title">Before</h3>
@@ -40,7 +37,11 @@ export function OptimizeDemo() {
               {OPTIMIZED.map((row) => (
                 <li key={row.label}>
                   <span>{row.label}</span>
-                  <span className="compare-value">{row.before}</span>
+                  <span
+                    className={`compare-value${phase === "done" ? " compare-value-old" : ""}`}
+                  >
+                    {row.before}
+                  </span>
                 </li>
               ))}
             </ul>
@@ -72,15 +73,15 @@ export function OptimizeDemo() {
           <div>
             <p className="demo-row-title">Automatic</p>
             <p className="demo-row-hint">
-              Picks encoder, resolution, frame rate and bitrate on your machine.
+              Picks encoder, resolution, frame rate and bitrate on the machine.
             </p>
           </div>
           <div className="demo-automatic-actions">
-            {phase === "done" && (
+            {phase === "done" ? (
               <button type="button" className="btn-ghost" onClick={runOptimize}>
                 Re-run
               </button>
-            )}
+            ) : null}
             <button
               type="button"
               className="btn-accent"
@@ -88,7 +89,9 @@ export function OptimizeDemo() {
               disabled={phase === "running"}
               aria-busy={phase === "running"}
             >
-              {phase === "running" && <span className="spinner" aria-hidden />}
+              {phase === "running" ? (
+                <span className="spinner" aria-hidden />
+              ) : null}
               Optimize for this PC
             </button>
           </div>
@@ -96,19 +99,14 @@ export function OptimizeDemo() {
 
         <p className="demo-spec tabular-nums">{specLine}</p>
 
-        {phase === "done" && (
+        {phase === "done" ? (
           <div className="demo-result-actions">
-            <span className="demo-result-label">
-              <span className="demo-check" aria-hidden>
-                ✓
-              </span>
-              Optimized just now
-            </span>
+            <span className="demo-result-label">Optimized just now</span>
             <button type="button" className="btn-ghost" onClick={undo}>
               Undo
             </button>
           </div>
-        )}
+        ) : null}
       </div>
     </section>
   );

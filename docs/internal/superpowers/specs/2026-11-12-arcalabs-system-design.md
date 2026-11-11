@@ -6,7 +6,7 @@
 | Date | 2026-11-12 |
 | Repo | [cxernlol/ArcaLabs](https://github.com/cxernlol/ArcaLabs) |
 | Platform (v1) | **Windows 10/11** (WebView2, DXGI, WASAPI) |
-| Related | [`design.md`](../../design.md) (UI), [`AGENTS.md`](../../AGENTS.md) (process & privacy) |
+| Related | [`design.md`](../../../design.md) (UI), [`AGENTS.md`](../../AGENTS.md) (process & privacy) |
 
 ---
 
@@ -171,10 +171,10 @@ flowchart TB
 
 ```
 ArcaLabs/
-├── AGENTS.md
+├── AGENTS.md          → docs/internal/AGENTS.md
 ├── design.md
-├── GEMINI.md
-├── CLAUDE.md
+├── GEMINI.md          → stub
+├── CLAUDE.md          → stub
 ├── apps/
 │   └── desktop/                 # Tauri app (src-tauri + frontend bundle)
 │       ├── src-tauri/           # Commands, event loop, DI wiring

@@ -18,7 +18,7 @@ Thanks for helping. ArcaLabs is privacy-first streaming software: the **desktop 
    - `fix/<short-description>` — bug fixes
    - `docs/<short-description>` — documentation only
 4. **Run local checks before every push** (required, including docs-only changes).
-5. **Do not add telemetry** to the desktop app (`apps/desktop`, Rust crates). No analytics SDKs, crash *upload* services, or automatic reporting to GitHub/any remote. The marketing site may use Vercel Web Analytics only as documented in [`AGENTS.md`](AGENTS.md).
+5. **Do not add telemetry** to the desktop app (`apps/desktop`, Rust crates). No analytics SDKs, crash *upload* services, or automatic reporting to GitHub/any remote. The marketing site may use Vercel Web Analytics only as documented in [`docs/internal/AGENTS.md`](docs/internal/AGENTS.md).
 6. **Stream keys** stay in the OS keychain only — never commit keys, dump them in logs, or write them to `settings.json`.
 7. **Local crash logs** (scrubbed `crash.log` / Copy crash report) are fine; automatic upload is not.
 
@@ -90,7 +90,7 @@ PRs should stay red until both CI jobs are green.
 
 ## Spec-first features
 
-Larger features follow [`AGENTS.md`](AGENTS.md): clarify requirements, write/update [`SPEC.md`](SPEC.md), get approval, then implement only what the spec lists. Match [`design.md`](design.md) for UI (Lucide, Inter, nested radius).
+Larger features follow [`docs/internal/AGENTS.md`](docs/internal/AGENTS.md): clarify requirements, write/update [`SPEC.md`](SPEC.md), get approval, then implement only what the spec lists. Match [`design.md`](design.md) for UI (Lucide, Inter, nested radius).
 
 ## Trying the v0.1 desktop prototype
 

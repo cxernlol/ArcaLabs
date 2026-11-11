@@ -9,11 +9,9 @@
   --color-on-accent: #f7fcfb;
 
   --font-sans: "DM Sans", system-ui, sans-serif;
-  /* JetBrains Mono: settings preview only (config file shape), not decorative terminal cosplay — antislop-ui R-06 */
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --radius-sharp: 2px;
-  --radius-soft: 8px;
+  --radius-control: 6px;
+  --radius-panel: 10px;
   --max-text: 38rem;
   --max-page: 72rem;
 

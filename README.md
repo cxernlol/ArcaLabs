@@ -46,7 +46,7 @@ Current feature contract: [`SPEC.md`](SPEC.md). UI tokens: [`design.md`](design.
 ```
 apps/desktop/     Tauri + React desktop app (this prototype)
 apps/web/         Marketing site (Vite + React)
-docs/             Architecture and design notes
+docs/             Architecture notes; agent rules under docs/internal/
 .github/          CI workflows and PR template
 scripts/          Local pre-PR checks (mirrors CI)
 ```
@@ -126,8 +126,8 @@ Short version:
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | Branching, local checks, PR rules |
 | [`SPEC.md`](SPEC.md) | Current approved feature spec |
 | [`design.md`](design.md) | Desktop UI design system |
-| [`AGENTS.md`](AGENTS.md) | Agent workflow and privacy rules |
-| [`docs/superpowers/specs/2026-11-12-arcalabs-system-design.md`](docs/superpowers/specs/2026-11-12-arcalabs-system-design.md) | System architecture (draft) |
+| [`docs/internal/AGENTS.md`](docs/internal/AGENTS.md) | Agent workflow and privacy rules |
+| [`docs/internal/superpowers/specs/2026-11-12-arcalabs-system-design.md`](docs/internal/superpowers/specs/2026-11-12-arcalabs-system-design.md) | System architecture (draft) |
 
 ## License
 
