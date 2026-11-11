@@ -9,13 +9,39 @@ ArcaLabs picks encoder, resolution, frame rate, and bitrate for the user’s PC 
 | | |
 |---|---|
 | **License** | [GPL-3.0](LICENSE) |
-| **Status** | P0 — desktop shell scaffold; marketing site live |
+| **Status** | P0 — **v0.1 offline desktop prototype** (no Go Live yet); marketing site live |
 | **Platforms** | Windows-first (desktop); web is static |
+
+## Desktop prototype (v0.1)
+
+Local-only shell you can run today. Nothing goes live; there is **no OAuth** and **no outbound network** from the desktop app in this version.
+
+**Try it**
+
+```bash
+pnpm install
+pnpm dev:desktop
+```
+
+Needs Node LTS, pnpm, Rust stable, and **MSVC Build Tools** + WebView2 on Windows.
+
+**What’s in the prototype**
+
+- Main window: preview placeholder, Scenes / Sources / Audio pop panels, disabled **Go Live**
+- Header gear → centered **Settings** modal (General · Stream · Video · Audio · Hotkeys)
+- Stream: YouTube / Kick / Twitch, ingest URL, stream key in the **OS keychain** only (never in config or logs)
+- Video: encoder / resolution / frame rate / bitrate stubs; GPU detect stays on-device
+- Local scrubbed `crash.log` + **Copy crash report** (no upload, no telemetry)
+- Optimize is a stub for a later local pass
+
+**Not in v0.1:** RTMP publish, real capture / WASAPI, OS hotkey registration, installers, auto-update.
+
+Current feature contract: [`SPEC.md`](SPEC.md). UI tokens: [`design.md`](design.md).
 
 ## Repository layout
 
 ```
-apps/desktop/     Tauri + React desktop app
+apps/desktop/     Tauri + React desktop app (this prototype)
 apps/web/         Marketing site (Vite + React)
 docs/             Architecture and design notes
 .github/          CI workflows and PR template
@@ -30,17 +56,21 @@ scripts/          Local pre-PR checks (mirrors CI)
 - Desktop: [Rust](https://rustup.rs/) (stable) and **MSVC Build Tools** on Windows
 - Desktop: WebView2 (usually present on Windows 10/11)
 
-### Desktop app
+From the **repo root** (`Arcalabs/`):
+
+```bash
+pnpm install
+pnpm dev:desktop   # Tauri prototype (needs MSVC Build Tools on Windows)
+pnpm dev:web       # marketing site
+```
+
+Or per app:
 
 ```bash
 cd apps/desktop
 pnpm install
 pnpm tauri dev
-```
 
-### Marketing site
-
-```bash
 cd apps/web
 pnpm install
 pnpm dev

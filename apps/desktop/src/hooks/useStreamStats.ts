@@ -10,27 +10,30 @@ const OFFLINE_STATS: StreamStats = {
   elapsedMs: 0,
 };
 
+function normalizeStats(payload: Record<string, unknown>): StreamStats {
+  const cpu = Number(payload.cpuPercent ?? payload.cpu_percent);
+  const fps = Number(payload.fps);
+  const kbps = Number(payload.kbps);
+  const dropped = Number(payload.dropped);
+  const elapsed = Number(payload.elapsedMs ?? payload.elapsed_ms);
+
+  return {
+    cpuPercent: Number.isFinite(cpu) ? cpu : OFFLINE_STATS.cpuPercent,
+    fps: Number.isFinite(fps) ? fps : OFFLINE_STATS.fps,
+    kbps: Number.isFinite(kbps) ? kbps : OFFLINE_STATS.kbps,
+    dropped: Number.isFinite(dropped) ? dropped : OFFLINE_STATS.dropped,
+    elapsedMs: Number.isFinite(elapsed) ? elapsed : OFFLINE_STATS.elapsedMs,
+  };
+}
+
 export function useStreamStats() {
   const [stats, setStats] = useState<StreamStats>(OFFLINE_STATS);
 
   useEffect(() => {
     let unlisten: (() => void) | undefined;
 
-    listen<{
-      cpu_percent: number;
-      fps: number;
-      kbps: number;
-      dropped: number;
-      elapsed_ms: number;
-    }>("stream:stats", (event) => {
-      const p = event.payload;
-      setStats({
-        cpuPercent: p.cpu_percent,
-        fps: p.fps,
-        kbps: p.kbps,
-        dropped: p.dropped,
-        elapsedMs: p.elapsed_ms,
-      });
+    listen<Record<string, unknown>>("stream:stats", (event) => {
+      setStats(normalizeStats(event.payload ?? {}));
     }).then((fn) => {
       unlisten = fn;
     });
