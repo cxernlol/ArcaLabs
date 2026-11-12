@@ -1,31 +1,22 @@
+mod audio;
+mod capture;
 mod commands;
 mod config;
 mod crash;
 mod gpu;
 mod keychain;
+mod scenes;
 
 use std::sync::Mutex;
-use std::thread;
-use std::time::Duration;
-
-use serde::Serialize;
-use tauri::Emitter;
-
-#[derive(Serialize, Clone)]
-#[serde(rename_all = "camelCase")]
-struct StreamStats {
-    cpu_percent: u8,
-    fps: u32,
-    kbps: u32,
-    dropped: u32,
-    elapsed_ms: u64,
-}
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
+        .manage(audio::AudioMixer::default())
+        .manage(audio::AudioMeter::default())
+        .manage(scenes::SceneStore::default())
+        .manage(capture::CaptureRuntime::default())
         .setup(|app| {
-            let handle = app.handle().clone();
             // shortcut: panic hook holds AppHandle; trim if we add a crash reporter service
             static PANIC_HANDLE: Mutex<Option<tauri::AppHandle>> = Mutex::new(None);
             if let Ok(mut slot) = PANIC_HANDLE.lock() {
@@ -42,19 +33,6 @@ pub fn run() {
                 prev(info);
             }));
 
-            thread::spawn(move || {
-                let stats = StreamStats {
-                    cpu_percent: 4,
-                    fps: 60,
-                    kbps: 0,
-                    dropped: 0,
-                    elapsed_ms: 0,
-                };
-                loop {
-                    thread::sleep(Duration::from_secs(1));
-                    let _ = handle.emit("stream:stats", stats.clone());
-                }
-            });
             Ok(())
         })
         .invoke_handler(tauri::generate_handler![
@@ -72,6 +50,31 @@ pub fn run() {
             commands::append_crash_log,
             commands::read_crash_log,
             commands::detect_gpu,
+            audio::get_audio_sources,
+            audio::get_audio_tracks,
+            audio::add_audio_track,
+            audio::set_audio_track_settings,
+            audio::remove_audio_track,
+            audio::start_audio_meter,
+            audio::stop_audio_meter,
+            audio::get_audio_input_levels,
+            scenes::get_scenes,
+            scenes::create_scene,
+            scenes::rename_scene,
+            scenes::set_active_scene,
+            scenes::delete_scene,
+            scenes::reorder_scene,
+            scenes::rename_source,
+            scenes::set_source_visibility,
+            scenes::set_source_transform,
+            scenes::reorder_source,
+            scenes::remove_source,
+            scenes::get_capture_displays,
+            scenes::add_display_source,
+            capture::add_window_source,
+            capture::reselect_window_source,
+            capture::get_preview_frame,
+            capture::stop_preview,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

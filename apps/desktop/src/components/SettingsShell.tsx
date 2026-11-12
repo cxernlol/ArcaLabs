@@ -386,6 +386,16 @@ function VideoPage({
       <h2 className="settings-page-title">Video</h2>
       <p className="settings-lede">{detectionLine}</p>
 
+      <div className="optimization-note">
+        <div>
+          <strong>Optimize for this PC</strong>
+          <p>One-click optimization is not available in this prototype.</p>
+        </div>
+        <button type="button" className="btn-quiet" disabled>
+          Optimize
+        </button>
+      </div>
+
       <div className="manual-rows">
         <label className="manual-row">
           <span>Encoder</span>
@@ -646,7 +656,7 @@ function HotkeysPage() {
     <div className="settings-page">
       <h2 className="settings-page-title">Hotkeys</h2>
       <p className="settings-lede">
-        Hotkeys register locally in a later version. Placeholders only for now.
+        Example bindings only. No shortcuts are registered in this prototype.
       </p>
       <div className="manual-rows">
         {HOTKEYS.map((row) => (
