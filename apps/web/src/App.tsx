@@ -1,4 +1,11 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useTransform,
+} from "framer-motion";
+import AnalyticsConsent from "./AnalyticsConsent.tsx";
 import "./App.css";
 
 const FOCUS_STEPS = [
@@ -13,6 +20,125 @@ const FOCUS_STEPS = [
 
 const GITHUB = "https://github.com/cxernlol/ArcaLabs";
 
+const ROADMAP = [
+  {
+    quarter: "Q4 2026",
+    dateTime: "2026-10",
+    version: "v0.1",
+    title: "Local prototype",
+    status: "Current",
+    features: [
+      "Settings stay on your PC",
+      "Stream key stored in the OS keychain",
+      "Scrubbed crash logs stay local",
+      "No desktop telemetry",
+    ],
+  },
+  {
+    quarter: "Q1 2027",
+    dateTime: "2027-01",
+    version: "v0.2",
+    title: "Capture and preview",
+    status: "Planned",
+    features: [
+      "Screen and window capture",
+      "WASAPI audio capture",
+      "Live preview",
+    ],
+  },
+  {
+    quarter: "Q2 2027",
+    dateTime: "2027-04",
+    version: "v0.3",
+    title: "First live game",
+    status: "Planned",
+    features: [
+      "RTMP publishing and ingest presets",
+      "Start, stop, and stream status",
+      "First game streamed live",
+    ],
+  },
+  {
+    quarter: "Q3 2027",
+    dateTime: "2027-07",
+    version: "v0.4",
+    title: "Automatic stream setup",
+    status: "Planned",
+    features: [
+      "On-device GPU detection",
+      "Suggested encoder, resolution, frame rate, and bitrate",
+      "Manual overrides",
+    ],
+  },
+  {
+    quarter: "Q4 2027",
+    dateTime: "2027-10",
+    version: "v1.0",
+    title: "First stable release",
+    status: "Planned",
+    features: [
+      "Windows installer and auto-update",
+      "Global hotkeys",
+      "Published RAM and CPU benchmarks",
+    ],
+  },
+] as const;
+
+const REVEAL_VARIANTS = {
+  hidden: { opacity: 0.92, y: 12 },
+  visible: { opacity: 1, y: 0 },
+};
+
+function AnimatedRoadmapItem({ children }: { children: ReactNode }) {
+  const ref = useRef<HTMLLIElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 55%", "start 45%"],
+  });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.85, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [24, 0]);
+
+  return (
+    <motion.li ref={ref} className="roadmap-item" style={{ opacity, y }}>
+      {children}
+    </motion.li>
+  );
+}
+
+function RoadmapMilestone({
+  milestone,
+  revealEnabled,
+}: {
+  milestone: (typeof ROADMAP)[number];
+  revealEnabled: boolean;
+}) {
+  const content = (
+    <>
+      <time className="roadmap-date" dateTime={milestone.dateTime}>
+        {milestone.quarter}
+      </time>
+      <div className="roadmap-content">
+        <div className="roadmap-title-row">
+          <h3>{milestone.title}</h3>
+          <span className="version-tag">{milestone.version}</span>
+          <span className="milestone-tag">{milestone.status}</span>
+        </div>
+        <ul className="roadmap-features">
+          {milestone.features.map((feature) => (
+            <li key={feature}>{feature}</li>
+          ))}
+        </ul>
+      </div>
+    </>
+  );
+
+  return revealEnabled ? (
+    <AnimatedRoadmapItem>{content}</AnimatedRoadmapItem>
+  ) : (
+    <li className="roadmap-item">{content}</li>
+  );
+}
+
 function GitHubMark() {
   return (
     <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
@@ -24,8 +150,60 @@ function GitHubMark() {
   );
 }
 
+function SiteHeader() {
+  return (
+    <header className="site-header">
+      <a className="brand" href="/" aria-label="Arca Labs home">
+        <img
+          src="/logo.png"
+          width={28}
+          height={28}
+          alt=""
+          fetchPriority="high"
+        />
+        <span className="brand-name">Arca Labs</span>
+      </a>
+      <nav className="site-nav" aria-label="Page">
+        <a href="#roadmap">Roadmap</a>
+        <a href="#workflow">Workflow</a>
+      </nav>
+      <a
+        className="header-github"
+        href={GITHUB}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <GitHubMark />
+        GitHub
+      </a>
+    </header>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer">
+      <p className="footer-copy">© 2026 Arca Labs · GPL-3.0</p>
+      <nav className="footer-nav" aria-label="Legal and privacy">
+        <a href="/privacy/">Privacy</a>
+        <a href="/terms/">Terms</a>
+        <button
+          className="privacy-settings-button"
+          type="button"
+          data-open-analytics-settings
+          aria-controls="analytics-consent"
+          aria-expanded="false"
+        >
+          Privacy settings
+        </button>
+      </nav>
+    </footer>
+  );
+}
+
 export default function App() {
   const frameRef = useRef<HTMLIFrameElement>(null);
+  const revealEnabled = useReducedMotion() === false;
 
   useEffect(() => {
     const section = document.getElementById("workflow");
@@ -94,51 +272,126 @@ export default function App() {
 
   return (
     <div className="page">
-      <header className="site-header">
-        <a className="brand" href="/">
-          <img src="/logo.png" width={28} height={28} alt="" fetchPriority="high" />
-          <span className="brand-name">Arca Labs</span>
-        </a>
-        <nav className="site-nav" aria-label="Page">
-          <a href="#workflow">Workflow</a>
-        </nav>
-        <a className="header-github" href={GITHUB} rel="noopener noreferrer">
-          <GitHubMark />
-          GitHub
-        </a>
-      </header>
-
+      <SiteHeader />
       <main id="main-content">
-        <section className="hero">
-          <h1>The stream key stays on your PC.</h1>
-          <p className="lede">
-            Windows prototype for YouTube, Kick, and Twitch. Encoder settings
-            come from your hardware. This build cannot go live.
-          </p>
-          <div className="hero-actions">
-            <a className="btn btn-primary" href={GITHUB} rel="noopener noreferrer">
-              GitHub
-            </a>
+        <motion.section
+          className="hero"
+          aria-labelledby="hero-title"
+          initial={revealEnabled ? "hidden" : false}
+          whileInView={revealEnabled ? "visible" : undefined}
+          viewport={{ once: true, amount: 0.16 }}
+          variants={REVEAL_VARIANTS}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <div className="hero-copy">
+            <p className="hero-kicker">Windows prototype · v0.1</p>
+            <h1 id="hero-title">The stream key stays on your PC.</h1>
+            <p className="lede">
+              A streaming setup for YouTube, Kick, and Twitch, built around your
+              hardware. This prototype keeps settings local and cannot go live
+              yet.
+            </p>
+            <div className="hero-actions">
+              <a
+                className="btn btn-primary"
+                href={GITHUB}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View on GitHub
+              </a>
+              <a className="btn btn-secondary" href="#roadmap">
+                See the roadmap
+              </a>
+            </div>
+          </div>
+
+          <figure className="preview-stage">
+            <img className="preview-mark" src="/logo.png" alt="" />
+            <div className="preview-glass">
+              <div className="preview-topline">
+                <strong>Arca Labs · v0.1</strong>
+                <span className="preview-status">Offline prototype</span>
+              </div>
+              <div className="preview-image-frame">
+                <img
+                  className="preview-image"
+                  src="/prototype-home.png"
+                  width={1172}
+                  height={768}
+                  fetchPriority="high"
+                  alt="Arca Labs Windows prototype showing stream setup controls and an offline preview; live streaming is not available in v0.1."
+                />
+              </div>
+              <figcaption className="preview-caption">
+                Product preview. The prototype cannot start a live stream.
+              </figcaption>
+            </div>
+          </figure>
+        </motion.section>
+        <section
+          id="roadmap"
+          className="roadmap"
+          aria-labelledby="roadmap-title"
+        >
+          <div className="roadmap-inner">
+            <div className="roadmap-heading">
+              <p className="section-kicker">The plan</p>
+              <h2 id="roadmap-title">From local prototype to first release.</h2>
+              <p className="roadmap-intro">
+                A planned path from v0.1 to v1.0. Dates and features may change
+                as the prototype is tested.
+              </p>
+            </div>
+            <ol className="roadmap-list">
+              {ROADMAP.map((milestone) => (
+                <RoadmapMilestone
+                  key={milestone.version}
+                  milestone={milestone}
+                  revealEnabled={revealEnabled}
+                />
+              ))}
+            </ol>
           </div>
         </section>
-        <section id="workflow" className="workflow" aria-label="Workflow">
+        <motion.section
+          className="workflow-heading"
+          aria-labelledby="workflow-title"
+          initial={revealEnabled ? "hidden" : false}
+          whileInView={revealEnabled ? "visible" : undefined}
+          viewport={{ once: true, amount: 0.16 }}
+          variants={REVEAL_VARIANTS}
+          transition={{ duration: 0.45, ease: "easeOut" }}
+        >
+          <p className="section-kicker">How it works</p>
+          <h2 id="workflow-title">A clear path from setup to stream.</h2>
+          <p>
+            Choose a platform, protect your stream key, review the setup, and
+            keep control before anything goes live.
+          </p>
+        </motion.section>
+        <section
+          id="workflow"
+          className="workflow"
+          aria-label="Arca Labs streaming workflow"
+        >
           <div className="workflow-sticky">
-            <iframe
+            <motion.iframe
               ref={frameRef}
-              title="Arca Labs workflow"
+              title="Arca Labs streaming workflow diagram"
               scrolling="no"
               src="/diagram.html?embed=1&theme=dark"
+              initial={revealEnabled ? "hidden" : false}
+              whileInView={revealEnabled ? "visible" : undefined}
+              viewport={{ once: true, amount: 0.16 }}
+              variants={REVEAL_VARIANTS}
+              transition={{ duration: 0.45, ease: "easeOut" }}
             />
           </div>
         </section>
       </main>
-
-      <footer className="site-footer">
-        <p>
-          v0.1 prototype. GPL-3.0. This page uses Vercel Web Analytics. The
-          desktop app does not.
-        </p>
-      </footer>
+      <SiteFooter />
+      <AnalyticsConsent />
     </div>
   );
 }
