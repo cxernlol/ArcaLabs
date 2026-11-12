@@ -5127,6 +5127,9 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
       transform-origin: 0 0;
       transition: transform 420ms cubic-bezier(0.22, 1, 0.36, 1);
     }
+    html[data-embed="true"] .diagram-container > svg[data-scroll-driven="true"] {
+      transition: none;
+    }
     @media (prefers-reduced-motion: reduce) {
       html[data-embed="true"] .diagram-container > svg {
         transition: none;
@@ -14827,37 +14830,65 @@ OTHER DEALINGS IN THE FONT SOFTWARE.
     });
   </script>
   <script>
+    var scrollCameraFocusId = null;
+    var scrollCameraCache = Object.create(null);
+    window.addEventListener("resize", function () {
+      scrollCameraCache = Object.create(null);
+    });
+    document.addEventListener("click", function () {
+      var svg = document.querySelector(".diagram-container > svg");
+      if (svg) svg.removeAttribute("data-scroll-driven");
+      scrollCameraFocusId = null;
+    }, true);
     window.addEventListener("message", function (event) {
       if (event.origin !== window.location.origin) return;
       var data = event.data;
-      if (!data || data.type !== "arca-focus") return;
+      if (!data || data.type !== "arca-scroll") return;
+      var fromId = data.fromId;
       var id = data.id;
       var svg = document.querySelector(".diagram-container > svg");
       if (!svg) return;
-      function show(nodeId) {
-        if (window.Archify && Archify.focus && typeof Archify.focus.clear === "function") {
-          Archify.focus.clear({ updateUrl: false, preserveView: true });
-        }
-        if (!nodeId) {
-          svg.style.transform = "translate(0px, 0px) scale(1)";
-          return;
-        }
-        if (window.Archify && Archify.focus && typeof Archify.focus.set === "function") {
-          Archify.focus.set(nodeId, { toggle: false, updateUrl: false, hideChip: true });
-        }
+      function cameraFor(nodeId) {
+        if (!nodeId) return { x: 0, y: 0, scale: 1 };
+        if (scrollCameraCache[nodeId]) return scrollCameraCache[nodeId];
         var node = svg.querySelector('[data-node-id="' + nodeId + '"]');
-        if (!node) return;
+        if (!node) return null;
         var box = node.getBBox();
         var vb = svg.viewBox.baseVal;
         var w = svg.clientWidth;
         var h = svg.clientHeight;
+        if (!w || !h || !vb.width || !vb.height) return null;
         var fit = Math.min(w / vb.width, h / vb.height);
         var px = (w - vb.width * fit) / 2 + (box.x + box.width / 2 - vb.x) * fit;
         var py = (h - vb.height * fit) / 2 + (box.y + box.height / 2 - vb.y) * fit;
         var scale = 2.2;
-        svg.style.transform = "translate(" + (w / 2 - scale * px) + "px, " + (h / 2 - scale * py) + "px) scale(" + scale + ")";
+        var camera = {
+          x: w / 2 - scale * px,
+          y: h / 2 - scale * py,
+          scale: scale
+        };
+        scrollCameraCache[nodeId] = camera;
+        return camera;
       }
-      show(id);
+      if (id !== scrollCameraFocusId) {
+        if (window.Archify && Archify.focus && typeof Archify.focus.clear === "function") {
+          Archify.focus.clear({ updateUrl: false, preserveView: true });
+        }
+        if (id && window.Archify && Archify.focus && typeof Archify.focus.set === "function") {
+          Archify.focus.set(id, { toggle: false, updateUrl: false, hideChip: true });
+        }
+        scrollCameraFocusId = id;
+      }
+      var from = cameraFor(fromId);
+      var to = cameraFor(id);
+      if (!from || !to) return;
+      var progress = Math.max(0, Math.min(Number(data.progress) || 0, 1));
+      var x = from.x + (to.x - from.x) * progress;
+      var y = from.y + (to.y - from.y) * progress;
+      var scale = from.scale + (to.scale - from.scale) * progress;
+      svg.setAttribute("data-scroll-driven", "true");
+      svg.style.transform = "translate(" + x + "px, " + y + "px) scale(" + scale + ")";
+      if (!id && progress >= 1) svg.removeAttribute("data-scroll-driven");
     });
   </script>
 </body>

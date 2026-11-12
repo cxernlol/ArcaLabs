@@ -33,10 +33,21 @@ export default function App() {
     if (!section || !frame) return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    let last = -1;
-    const post = (id: string) => {
+    let lastIndex = -1;
+    let scheduledFrame: number | null = null;
+    const post = (progress: number) => {
+      const scaledProgress = progress * FOCUS_STEPS.length;
+      const index = Math.min(
+        FOCUS_STEPS.length - 1,
+        Math.floor(scaledProgress),
+      );
       frame.contentWindow?.postMessage(
-        { type: "arca-focus", id },
+        {
+          type: "arca-scroll",
+          fromId: FOCUS_STEPS[index - 1] ?? "",
+          id: FOCUS_STEPS[index],
+          progress: scaledProgress - index,
+        },
         window.location.origin,
       );
     };
@@ -44,29 +55,40 @@ export default function App() {
       const rect = section.getBoundingClientRect();
       const stuck = rect.top <= 1 && rect.bottom >= window.innerHeight - 1;
       if (!stuck) {
-        if (last !== -1) {
-          last = -1;
-          post("");
+        if (lastIndex !== -1) {
+          post(1);
+          lastIndex = -1;
         }
         return;
       }
       const total = section.offsetHeight - window.innerHeight;
       const scrolled = Math.min(Math.max(-rect.top, 0), Math.max(total, 0));
       const progress = total > 0 ? scrolled / total : 0;
-      const index = Math.min(FOCUS_STEPS.length - 1, Math.floor(progress * FOCUS_STEPS.length));
-      if (index === last) return;
-      last = index;
-      post(FOCUS_STEPS[index]);
+      lastIndex = Math.min(
+        FOCUS_STEPS.length - 1,
+        Math.floor(progress * FOCUS_STEPS.length),
+      );
+      post(progress);
+    };
+    const scheduleSend = () => {
+      if (scheduledFrame !== null) return;
+      scheduledFrame = window.requestAnimationFrame(() => {
+        scheduledFrame = null;
+        send();
+      });
     };
 
     send();
     frame.addEventListener("load", send);
-    window.addEventListener("scroll", send, { passive: true });
-    window.addEventListener("resize", send);
+    window.addEventListener("scroll", scheduleSend, { passive: true });
+    window.addEventListener("resize", scheduleSend);
     return () => {
+      if (scheduledFrame !== null) {
+        window.cancelAnimationFrame(scheduledFrame);
+      }
       frame.removeEventListener("load", send);
-      window.removeEventListener("scroll", send);
-      window.removeEventListener("resize", send);
+      window.removeEventListener("scroll", scheduleSend);
+      window.removeEventListener("resize", scheduleSend);
     };
   }, []);
 

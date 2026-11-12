@@ -32,7 +32,7 @@ No decisions changelog, no YAML preview, no logo art, no eyebrow, no testimonial
 
 ## Motion
 
-Nothing moves. `prefers-reduced-motion` still turns off smooth scrolling.
+The workflow camera follows the page scroll through the diagram. Reduced motion keeps the diagram still and usable.
 
 ## Privacy
 
