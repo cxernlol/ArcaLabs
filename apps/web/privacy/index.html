@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="/logo.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0B0B0D" />
+    <meta
+      name="description"
+      content="Learn how the Arca Labs website handles optional analytics and how the Windows prototype keeps settings and stream keys local."
+    />
+    <link rel="canonical" href="https://arcalabs.vercel.app/privacy/" />
+    <title>Privacy Policy | Arca Labs</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <div class="page">
+      <header class="site-header">
+        <a class="brand" href="/" aria-label="Arca Labs home">
+          <img src="/logo.png" width="28" height="28" alt="" />
+          <span class="brand-name">Arca Labs</span>
+        </a>
+        <nav class="site-nav" aria-label="Page">
+          <a href="/#roadmap">Roadmap</a>
+          <a href="/#workflow">Workflow</a>
+        </nav>
+        <a
+          class="header-github"
+          href="https://github.com/cxernlol/ArcaLabs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          GitHub
+        </a>
+      </header>
+      <div id="consent-root"></div>
+      <main class="legal-main" id="main-content">
+        <p class="section-kicker">Arca Labs</p>
+        <h1>Privacy policy</h1>
+        <p class="legal-intro">
+          This page explains the optional analytics used by the hosted website
+          and the local-first data handling of the Windows prototype.
+        </p>
+        <p class="legal-review-note">
+          This page needs owner and legal review before production publication.
+        </p>
+
+        <section class="legal-section" aria-labelledby="website-analytics">
+          <h2 id="website-analytics">Hosted website analytics</h2>
+          <p>
+            The hosted website uses Vercel Web Analytics only after you choose
+            Accept. Until then, the analytics script is not loaded. Choosing
+            Reject keeps it disabled. You can reopen this choice with Privacy
+            settings in the footer.
+          </p>
+          <p>
+            Vercel says Web Analytics does not use third-party cookies. It may
+            process page views, page URLs, referrers, approximate location, and
+            browser or device details to provide site statistics. Read{" "}
+            <a
+              href="https://vercel.com/docs/analytics/privacy-policy"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Vercel's Web Analytics privacy information
+            </a>
+            .
+          </p>
+          <p>
+            Your choice is saved in this browser's local storage, not in a
+            cookie. If local storage is unavailable or the choice cannot be
+            saved, analytics remains disabled. No analytics choice is sent to
+            the desktop app.
+          </p>
+        </section>
+
+        <section class="legal-section" aria-labelledby="desktop-app">
+          <h2 id="desktop-app">Windows desktop prototype</h2>
+          <p>
+            The desktop app does not collect analytics, telemetry, crash
+            reports, or usage data. Settings are stored locally. The stream key
+            is stored in the operating system keychain, and scrubbed crash logs
+            stay on the device unless you choose to share them yourself.
+          </p>
+          <p>
+            The app connects to the streaming platform you choose when you
+            stream. The v0.1 prototype cannot go live.
+          </p>
+        </section>
+
+        <section class="legal-section" aria-labelledby="other-sites">
+          <h2 id="other-sites">Other sites</h2>
+          <p>
+            Links to GitHub and Vercel lead to services with their own privacy
+            practices. Their policies apply when you visit those sites.
+          </p>
+        </section>
+      </main>
+      <footer class="site-footer">
+        <p class="footer-copy">© 2026 Arca Labs · GPL-3.0</p>
+        <nav class="footer-nav" aria-label="Legal and privacy">
+          <a href="/privacy/" aria-current="page">Privacy</a>
+          <a href="/terms/">Terms</a>
+          <button
+            class="privacy-settings-button"
+            type="button"
+            data-open-analytics-settings
+            aria-controls="analytics-consent"
+            aria-expanded="false"
+          >
+            Privacy settings
+          </button>
+        </nav>
+      </footer>
+    </div>
+    <script type="module" src="/src/legal-entry.tsx"></script>
+  </body>
+</html>
