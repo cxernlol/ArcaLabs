@@ -5,14 +5,6 @@ export interface AppState {
   live: boolean;
 }
 
-export interface StreamStats {
-  cpuPercent: number;
-  fps: number;
-  kbps: number;
-  dropped: number;
-  elapsedMs: number;
-}
-
 export interface StreamDestination {
   platform: Platform;
   ingestUrl: string;
@@ -31,6 +23,28 @@ export interface VideoSettings {
 export interface AudioDefaults {
   defaultMicId: string;
   defaultDesktopId: string;
+}
+
+export interface AudioSource {
+  id: string;
+  label: string;
+  kind: "mic" | "desktop" | "application";
+  processId: number | null;
+}
+
+export interface AudioTrack {
+  id: string;
+  label: string;
+  kind: AudioSource["kind"];
+  processId: number | null;
+  volume: number;
+  muted: boolean;
+}
+
+export interface AudioInputLevel {
+  id: string;
+  peak: number | null;
+  error: string | null;
 }
 
 export interface GeneralSettings {
@@ -54,6 +68,37 @@ export interface GpuInfo {
   name: string;
   vendor: "nvidia" | "amd" | "intel" | "unknown" | string;
   suggestedEncoder: string;
+}
+
+export interface SceneSource {
+  id: string;
+  name: string;
+  kind: "display" | "window";
+  displayId: string | null;
+  visible: boolean;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+export interface Scene {
+  id: string;
+  name: string;
+  sources: SceneSource[];
+}
+
+export interface SceneCollection {
+  version: number;
+  activeSceneId: string;
+  scenes: Scene[];
+}
+
+export interface CaptureDisplay {
+  id: string;
+  label: string;
+  width: number;
+  height: number;
 }
 
 export const PLATFORMS: { id: Platform; label: string }[] = [

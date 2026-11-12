@@ -4,9 +4,9 @@
   "version": "0.1.0",
   "identifier": "com.arcalabs.desktop",
   "build": {
-    "beforeDevCommand": "pnpm --dir apps/desktop dev",
+    "beforeDevCommand": "pnpm --filter appsdesktop dev",
     "devUrl": "http://localhost:1420",
-    "beforeBuildCommand": "pnpm build",
+    "beforeBuildCommand": "pnpm --filter appsdesktop build",
     "frontendDist": "../dist"
   },
   "app": {
@@ -16,8 +16,8 @@
         "title": "Arcalabs",
         "width": 1372,
         "height": 882,
-        "minWidth": 1100,
-        "minHeight": 700,
+        "minWidth": 900,
+        "minHeight": 600,
         "decorations": false,
         "backgroundColor": "#0F1013"
       }

@@ -1,134 +1,68 @@
-# Arca Labs
+# ArcaLabs
 
-Lightweight desktop streaming for **YouTube**, **Kick**, and **Twitch**.
+Privacy-first desktop streaming software for YouTube, Kick, and Twitch. ArcaLabs is built with Rust and Tauri, with a Windows-first focus and a small-footprint goal.
 
-Arcalabs picks encoder, resolution, frame rate, and bitrate for the user’s PC automatically, with manual controls available underneath. The desktop app is built with **Rust** and **Tauri** for a small footprint and low RAM use. **It collects no user data.**
-
-**Website:** [arcalabs.vercel.app](https://arcalabs.vercel.app) · **Contributing:** [`CONTRIBUTING.md`](CONTRIBUTING.md)
+**Website:** [arcalabs.vercel.app](https://arcalabs.vercel.app) · **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 
 [![CI](https://github.com/cxernlol/ArcaLabs/actions/workflows/ci.yml/badge.svg)](https://github.com/cxernlol/ArcaLabs/actions/workflows/ci.yml)
 
-| | |
-|---|---|
-| **License** | [GPL-3.0](LICENSE) |
-| **Status** | P0 — **v0.1 offline desktop prototype** (no Go Live yet); marketing site live |
-| **Platforms** | Windows-first (desktop); web is static |
-| **Required checks** | CI `web` + `rust` (see below) |
+> **Current status:** Early desktop prototype. Scene management, capture sources, preview, and local audio meters are implemented and still being refined. RTMP publishing and the live audio mix are not implemented yet, so **Go Live is unavailable**. The app does not record locally.
 
-## Desktop prototype (v0.1)
+## What the desktop prototype includes
 
-Local-only shell you can run today. Nothing goes live; there is **no OAuth** and **no outbound network** from the desktop app in this version.
+- Scene management with display and window capture sources.
+- Live preview for the selected scene.
+- Microphone, desktop, and application audio source selection. Microphone and application input levels are measured locally; live audio mixing is not available yet.
+- Stream destination settings for YouTube, Kick, and Twitch using RTMP details. Stream keys are stored in the operating system keychain.
+- Video and general settings, with unavailable features clearly marked.
+- Local crash reports that users choose whether to copy and share.
 
-**Try it**
+The desktop app does not upload logs, collect telemetry, or make analytics calls. Audio is not saved as a local recording. See [`apps/desktop/SPEC.md`](apps/desktop/SPEC.md) and the focused [capture specification](apps/desktop/specs/scenes-capture/SPEC.md) for current scope and limitations.
+
+## Run locally
+
+### Requirements
+
+- Node.js LTS and pnpm
+- Rust stable
+- Windows: MSVC Build Tools with the C++ workload and WebView2
+
+From the repository root:
 
 ```bash
 pnpm install
 pnpm dev:desktop
 ```
 
-Needs Node LTS, pnpm, Rust stable, and **MSVC Build Tools** + WebView2 on Windows.
-
-**What’s in the prototype**
-
-- Main window: preview placeholder, Scenes / Sources / Audio pop panels, disabled **Go Live**
-- Header gear → centered **Settings** modal (General · Stream · Video · Audio · Hotkeys)
-- Stream: YouTube / Kick / Twitch, ingest URL, stream key in the **OS keychain** only (never in config or logs)
-- Video: encoder / resolution / frame rate / bitrate stubs; GPU detect stays on-device
-- Local scrubbed `crash.log` + **Copy crash report** (no upload, no telemetry)
-- Optimize is a stub for a later local pass
-
-**Not in v0.1:** RTMP publish, real capture / WASAPI, OS hotkey registration, installers, auto-update.
-
-Current feature contract: [`SPEC.md`](SPEC.md). UI tokens: [`design.md`](design.md).
-
-## Repository layout
-
-```
-apps/desktop/     Tauri + React desktop app (this prototype)
-apps/web/         Marketing site (Vite + React)
-docs/             Architecture notes; agent rules under docs/internal/
-.github/          CI workflows and PR template
-scripts/          Local pre-PR checks (mirrors CI)
-```
-
-## Quick start
-
-### Prerequisites
-
-- [Node.js](https://nodejs.org/) LTS and [pnpm](https://pnpm.io/)
-- Desktop: [Rust](https://rustup.rs/) (stable) and **MSVC Build Tools** on Windows
-- Desktop: WebView2 (usually present on Windows 10/11)
-
-From the **repo root** (`Arcalabs/`):
+Run the marketing site separately:
 
 ```bash
-pnpm install
-pnpm dev:desktop   # Tauri prototype (needs MSVC Build Tools on Windows)
-pnpm dev:web       # marketing site
+pnpm dev:web
 ```
 
-Or per app:
+See [`apps/web/README.md`](apps/web/README.md) for Vercel setup.
 
-```bash
-cd apps/desktop
-pnpm install
-pnpm tauri dev
+## CI and deployment
 
-cd apps/web
-pnpm install
-pnpm dev
-```
+Pull requests and pushes to `main` run [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
 
-See [`apps/web/README.md`](apps/web/README.md) for Vercel deploy notes.
+| Check | Runner | What it runs |
+|---|---|---|
+| `web` | Ubuntu | Frozen pnpm install, lint, and production build for `apps/web` |
+| `rust` | Windows | `cargo check` for `apps/desktop/src-tauri` |
 
-## CI / CD checks
-
-Every pull request and push to `main` must pass [`.github/workflows/ci.yml`](.github/workflows/ci.yml):
-
-| Check | Job | Runner | What it runs |
-|-------|-----|--------|--------------|
-| Marketing site | `web` | Ubuntu | `pnpm install --frozen-lockfile` → `pnpm lint` → `pnpm build` in `apps/web` |
-| Desktop Rust | `rust` | Windows | `cargo check` in `apps/desktop/src-tauri` |
-
-**Run the same checks locally before push:**
+Run the same checks locally before pushing:
 
 ```powershell
-# Windows
 .\scripts\check.ps1
 ```
 
-```bash
-# macOS / Linux
-./scripts/check.sh
-
-# or
-pnpm check
-```
-
-**CD** — Vercel builds `apps/web` when `main` updates ([arcalabs.vercel.app](https://arcalabs.vercel.app)). Root Directory: `apps/web`. Desktop installers / auto-update are not in CI/CD yet.
-
-Protect `main` and require the `web` + `rust` status checks.
+Vercel deploys the marketing site from `apps/web` when changes land on `main`. Desktop installer and auto-update builds are not part of CI yet.
 
 ## Contributing
 
-Start with **[`CONTRIBUTING.md`](CONTRIBUTING.md)** (branching, privacy rules, PR checklist, CI expectations).
-
-Short version:
-
-1. Branch from `main` with `feat/`, `fix/`, or `docs/` prefixes — no direct commits to `main`.
-2. Run `.\scripts\check.ps1` / `./scripts/check.sh` (or `pnpm check`) until green.
-3. Open a PR and wait for CI `web` + `rust`.
-
-## Documentation
-
-| Document | Purpose |
-|----------|---------|
-| [`CONTRIBUTING.md`](CONTRIBUTING.md) | Branching, local checks, PR rules |
-| [`SPEC.md`](SPEC.md) | Current approved feature spec |
-| [`design.md`](design.md) | Desktop UI design system |
-| [`docs/internal/AGENTS.md`](docs/internal/AGENTS.md) | Agent workflow and privacy rules |
-| [`docs/internal/superpowers/specs/2026-11-12-arcalabs-system-design.md`](docs/internal/superpowers/specs/2026-11-12-arcalabs-system-design.md) | System architecture (draft) |
+Open a focused pull request against `main`; do not push directly to `main`. Use `feat/`, `fix/`, or `docs/` branch prefixes, and run CI checks before each push. Read [`CONTRIBUTING.md`](CONTRIBUTING.md) for the full workflow and privacy requirements.
 
 ## License
 
-This project is licensed under the [GNU General Public License v3.0](LICENSE).
+ArcaLabs is licensed under [GPL-3.0](LICENSE).
