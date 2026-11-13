@@ -4,7 +4,7 @@ Instructions for any AI coding agent (Claude Code, Codex, Gemini CLI, Cursor, Co
 
 ## Project overview
 
-Arcalabs is a desktop streaming app for YouTube, Kick and Twitch, built with **Tauri** (Rust core, system webview frontend). It picks the encoder, resolution, frame rate and bitrate for the user's PC automatically, with manual control available underneath. **The desktop app collects no user data.**
+Arcalabs is a privacy-first desktop streaming app for YouTube, Kick and Twitch. The active desktop migration replaces the Tauri/WebView prototype with a Windows-native Rust app (`egui/eframe`) and Rust media crates; keep the Tauri app until native feature parity. The app collects no user data and only connects to a stream the user starts.
 
 The **marketing site** (`apps/web`) is separate: it may use **Vercel Web Analytics** (`@vercel/analytics`) for page views on the hosted site only. Do not add analytics, Speed Insights, or other third-party trackers to `apps/desktop` or any Rust crate unless an approved spec says so.
 

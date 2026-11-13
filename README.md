@@ -1,38 +1,37 @@
 # ArcaLabs
 
-Privacy-first desktop streaming software for YouTube, Kick, and Twitch. ArcaLabs is built with Rust and Tauri, with a Windows-first focus and a small-footprint goal.
+Privacy-first desktop streaming software for YouTube, Kick, and Twitch. ArcaLabs is moving to a Windows-native Rust UI and media pipeline, with a small-footprint goal.
 
 **Website:** [arcalabs.vercel.app](https://arcalabs.vercel.app) · **Contributing:** [CONTRIBUTING.md](CONTRIBUTING.md)
 
 [![CI](https://github.com/cxernlol/ArcaLabs/actions/workflows/ci.yml/badge.svg)](https://github.com/cxernlol/ArcaLabs/actions/workflows/ci.yml)
 
-> **Current status:** Early desktop prototype. Scene management, capture sources, preview, and local audio meters are implemented and still being refined. RTMP publishing and the live audio mix are not implemented yet, so **Go Live is unavailable**. The app does not record locally.
+> **Current status:** Native Rust migration is underway. The native egui shell and local scene/settings foundation are being built first; capture presentation, encoding, live audio mixing, and RTMPS publishing are not yet connected, so **Go Live is unavailable**. The existing Tauri prototype is retained during migration. ArcaLabs does not record locally.
 
-## What the desktop prototype includes
+## Desktop migration
 
-- Scene management with display and window capture sources.
-- Live preview for the selected scene.
-- Microphone, desktop, and application audio source selection. Microphone and application input levels are measured locally; live audio mixing is not available yet.
-- Stream destination settings for YouTube, Kick, and Twitch using RTMP details. Stream keys are stored in the operating system keychain.
-- Video and general settings, with unavailable features clearly marked.
-- Local crash reports that users choose whether to copy and share.
+- `apps/desktop` is the native `egui/eframe` app.
+- `crates/arca-core`, `arca-capture`, `arca-compose`, `arca-encode`, `arca-audio`, and `arca-publish` contain the Rust app and media foundations.
+- The existing `apps/desktop/src-tauri` Tauri prototype remains available until native feature parity is reached.
+- The stream key remains in the OS keychain. Settings, scenes, and scrubbed crash logs stay local.
 
-The desktop app does not upload logs, collect telemetry, or make analytics calls. Audio is not saved as a local recording. See [`apps/desktop/SPEC.md`](apps/desktop/SPEC.md) and the focused [capture specification](apps/desktop/specs/scenes-capture/SPEC.md) for current scope and limitations.
+The desktop app makes no analytics or telemetry calls. Its only intended network connection is a stream the user starts. See [`apps/desktop/SPEC.md`](apps/desktop/SPEC.md) for the approved migration scope.
 
 ## Run locally
 
 ### Requirements
 
-- Node.js LTS and pnpm
 - Rust stable
-- Windows: MSVC Build Tools with the C++ workload and WebView2
+- Windows: MSVC Build Tools with the C++ workload
+- Node.js LTS and pnpm for the website and retained Tauri prototype
 
 From the repository root:
 
 ```bash
-pnpm install
-pnpm dev:desktop
+cargo run -p arcalabs
 ```
+
+The retained Tauri prototype can still be run with `pnpm install` and `pnpm dev:desktop`.
 
 Run the marketing site separately:
 
@@ -49,7 +48,7 @@ Pull requests and pushes to `main` run [`.github/workflows/ci.yml`](.github/work
 | Check | Runner | What it runs |
 |---|---|---|
 | `web` | Ubuntu | Frozen pnpm install, lint, and production build for `apps/web` |
-| `rust` | Windows | `cargo check` for `apps/desktop/src-tauri` |
+| `rust` | Windows | Rust formatting, workspace check, and workspace tests |
 
 Run the same checks locally before pushing:
 
@@ -57,7 +56,7 @@ Run the same checks locally before pushing:
 .\scripts\check.ps1
 ```
 
-Vercel deploys the marketing site from `apps/web` when changes land on `main`. Desktop installer and auto-update builds are not part of CI yet.
+Vercel deploys the marketing site from `apps/web` when changes land on `main`. Native installer builds are not part of CI yet.
 
 ## Contributing
 
