@@ -19,15 +19,23 @@ finally {
   Pop-Location
 }
 
-Write-Host "==> Rust: cargo check" -ForegroundColor Cyan
-Push-Location (Join-Path $Root "apps\desktop\src-tauri")
+Write-Host "==> Desktop frontend: build" -ForegroundColor Cyan
+Push-Location (Join-Path $Root "apps\desktop")
 try {
-  cargo check
+  pnpm build
   if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 }
 finally {
   Pop-Location
 }
+
+Write-Host "==> Rust: format, workspace check, and tests" -ForegroundColor Cyan
+cargo fmt --all -- --check
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+cargo check --workspace --all-targets
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+cargo test --workspace
+if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
 
 Write-Host "==> All local checks passed" -ForegroundColor Green
 exit 0

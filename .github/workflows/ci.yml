@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
   pull_request:
-    branches: [main]
+    branches: [main, 'feat/**', 'fix/**']
 
 jobs:
   web:
@@ -34,16 +34,24 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Retained desktop frontend
+        run: pnpm --dir ../desktop build
+
   rust:
     name: rust
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: apps/desktop/src-tauri
     steps:
       - uses: actions/checkout@v4
 
       - uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
 
-      - name: Cargo check
-        run: cargo check
+      - name: Format
+        run: cargo fmt --all -- --check
+
+      - name: Check workspace
+        run: cargo check --workspace --all-targets
+
+      - name: Test workspace
+        run: cargo test --workspace
