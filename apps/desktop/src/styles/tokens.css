@@ -1,19 +1,20 @@
 :root {
   --bg-app: #0b0b0d;
-  --bg-panel: #161619;
-  --bg-sunken: #101012;
+  --bg-panel: #17181c;
+  --bg-sunken: #101113;
   --bg-letterbox: #070709;
-  --bg-selected: #211c35;
-  --bg-raised: #252529;
-  --border-subtle: #34343a;
+  --bg-selected: #262d1b;
+  --bg-raised: #25282a;
+  --border-subtle: #2d3033;
 
   --text-primary: #f2f4f8;
-  --text-secondary: #b9bbc5;
-  --text-muted: #9799a4;
+  --text-secondary: #c2c7cf;
+  --text-muted: #9ba2aa;
 
-  --accent-solid: #704deb;
-  --accent-line: #7955ff;
-  --accent-text: #f2f4f8;
+  --accent-solid: #c6f14a;
+  --accent-line: #c6f14a;
+  --accent-text: #c6f14a;
+  --text-on-accent: #0b0b0d;
 
   --status-live: #f25555;
   --status-danger: #c4373b;

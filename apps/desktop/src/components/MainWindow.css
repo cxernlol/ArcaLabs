@@ -41,6 +41,21 @@
 .wordmark-icon {
   display: flex;
   color: var(--accent-line);
+  width: 30px;
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.logo-mark {
+  flex: none;
+  width: 54px;
+  height: 54px;
+  max-width: none;
+  margin: -12px;
+  mix-blend-mode: screen;
+  filter: hue-rotate(257deg) saturate(1.15);
 }
 
 .app-header-status {
@@ -113,6 +128,7 @@
 
 .preview-stage {
   position: relative;
+  container-type: size;
   flex: 1 1 0;
   min-height: 160px;
   display: grid;
@@ -125,8 +141,8 @@
 
 .preview-canvas {
   position: relative;
-  width: min(100%, 1920px);
-  max-height: 100%;
+  width: min(100cqw, calc(100cqh * 16 / 9), 1920px);
+  max-height: 100cqh;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   background: #050506;
@@ -221,7 +237,7 @@
 }
 
 .pop-card.open {
-  border-color: color-mix(in srgb, var(--accent-line) 28%, var(--border-subtle));
+  border-color: var(--border-subtle);
 }
 
 .pop-card-bar {
@@ -307,6 +323,7 @@
 .pop-card-item.selected {
   color: var(--text-primary);
   background: var(--bg-selected);
+  box-shadow: inset 3px 0 var(--accent-line);
 }
 
 .pop-card-item.muted {
@@ -896,7 +913,7 @@
   border: none;
   border-radius: var(--radius-control);
   background: var(--accent-solid);
-  color: #fff;
+  color: var(--text-on-accent);
   font-size: 16px;
   font-weight: 600;
 }
@@ -904,6 +921,10 @@
 .btn-go-live:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+.btn-go-live:not(:disabled):hover {
+  background: color-mix(in srgb, var(--accent-solid) 88%, white);
 }
 
 .go-live-error {
@@ -1184,8 +1205,9 @@
 }
 
 .scene-active-label {
-  color: var(--text-muted);
+  color: var(--accent-line);
   font-size: 11px;
+  font-weight: 500;
 }
 
 .source-hidden {
@@ -1290,6 +1312,12 @@
 
 .btn-go-live:disabled {
   opacity: 1;
+}
+
+.btn-go-live:not(:disabled) {
+  color: var(--text-on-accent);
+  background: var(--accent-solid);
+  border-color: var(--accent-solid);
 }
 
 .btn-settings {
