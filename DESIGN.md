@@ -12,7 +12,7 @@ These need the owner's answer. Agents must not pick for the owner. If a build co
 
 | #   | Decision         | Current state                                                                                         | Why it is open                                                                                                                                                        |
 | --- | ---------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 0.1 | **Accent hue**   | App uses purple (`#6C47FF`). The site uses teal. The site logo is teal/white, the app mark is purple. | Purple on near-black is a default palette. A written reason is required, or derive the accent from the real logo. **Rule either way: app and site share one accent.** |
+| 0.1 | **Accent hue**   | Native app: Acid Lime (`#C6F14A`), selected by the user. Website keeps its separately approved violet palette. | The native desktop follows the latest app-specific palette choice. Revisit the website only as part of a website design request. |
 | 0.2 | **Typeface**     | Inter, bundled.                                                                                       | Inter is a common default. Write a brand reason, or use Segoe UI Variable (native on Windows 11, zero font bytes, fits "lightweight").                                |
 | 0.3 | **Icon set**     | Lucide, required. `zap` for Optimize.                                                                 | The uniform Lucide look and the lightning glyph are both common defaults. Write why they fit, or choose another set or no icon for Optimize.                          |
 | 0.4 | **Dark only**    | Dark only, no light theme.                                                                            | Dark must be a decision, not a trend. Write the reason.                                                                                                               |
@@ -20,7 +20,7 @@ These need the owner's answer. Agents must not pick for the owner. If a build co
 
 Reasons (proposed drafts, not final; edit or replace):
 
-- 0.1 Accent: **open.** Needs your call: purple in the app, teal on the site. Decide from whichever logo is canonical, then update `tokens.css`.
+- 0.1 Accent: Acid Lime (`#C6F14A`) for the native app, selected by the user. The website keeps its separately approved violet palette.
 - 0.2 Typeface: keep Inter. One family with tabular figures keeps the status bar and timer steady, stays legible at small sizes on every OS, and is bundled once for both app and site. Reconsider Segoe UI Variable only if installer size matters.
 - 0.3 Icons: keep one set (Lucide) at 1.5 stroke so icons stay as quiet as the chrome. Drop the icon on Optimize; the label is enough.
 - 0.4 Dark only: streams are set up in dim rooms and the preview should be the brightest thing on screen. Light chrome would compete with it.
@@ -70,13 +70,15 @@ Proposed direction. Edit freely; everything else in this file follows from it.
 
 ### Surfaces
 
+For the desktop app, keep the visual weight near 60/30/10: Obsidian Black grounds the workspace, Icy White carries readable content, and Acid Lime marks the primary action and real active controls. Lime is an accent, not a panel fill. The marketing site retains its separately approved palette.
+
 | Token           | Hex (approx.) | Use                                                                           |
 | --------------- | ------------- | ----------------------------------------------------------------------------- |
 | `bg.app`        | `#0F1013`     | Window background, settings content area                                      |
 | `bg.panel`      | `#17181C`     | Cards and panels (Scenes, Sources, Audio, Stream), setup card, preview canvas |
 | `bg.sunken`     | `#0C0D10`     | Inputs, segmented-control track, status and title bars                        |
 | `bg.letterbox`  | `#070709`     | Letterbox bars beside the 16:9 preview                                        |
-| `bg.selected`   | `#1D1A33`     | Selected list or nav item (accent-tinted)                                     |
+| `bg.selected`   | `#23291A`     | Native app selected list or nav item (lime-tinted)                             |
 | `bg.raised`     | `#26272D`     | Active segment in a segmented control, disabled primary button, meter track   |
 | `border.subtle` | `#25262C`     | Panel, input and divider borders, 1px                                         |
 
@@ -90,13 +92,13 @@ Proposed direction. Edit freely; everything else in this file follows from it.
 
 > Changed from the first draft: `text.muted` was `#6E6F78`, which measured 3.55:1 on panels. Struck-through old values are information and placeholders are not exempt, so it now passes 4.5:1 on every surface.
 
-### Accent (purple, pending decision 0.1)
+### Accent (Acid Lime — native app)
 
 | Token          | Hex (approx.) | Use                                                                                |
 | -------------- | ------------- | ---------------------------------------------------------------------------------- |
-| `accent.solid` | `#6C47FF`     | Primary buttons (*Go Live*, *Done*, *Finish setup*), toggle on-state               |
-| `accent.line`  | `#8B6CFF`     | Outline of secondary action, audio level fill, checkmark, logo mark                |
-| `accent.text`  | `#C9BBFF`     | Label of the outlined secondary button ("Optimize for this PC", "Re-run optimize") |
+| `accent.solid` | `#C6F14A`     | Primary buttons (*Go Live*, *Done*, *Finish setup*), toggle on-state               |
+| `accent.line`  | `#C6F14A`     | Outline of secondary action, audio level fill, checkmark, logo mark                |
+| `accent.text`  | `#C6F14A`     | Label of the outlined secondary button ("Optimize for this PC", "Re-run optimize") |
 
 ### Status
 
@@ -114,15 +116,15 @@ Proposed direction. Edit freely; everything else in this file follows from it.
 | `text.secondary` on `bg.panel`                                                     | 7.2                   |
 | `text.muted` (`#8E8F98`) on `bg.panel` / `bg.sunken` / `bg.selected` / `bg.raised` | 5.5 / 6.0 / 5.2 / 4.6 |
 | `text.secondary` on `bg.raised`                                                    | ≈ 6.0                 |
-| White on `accent.solid`                                                            | 5.3                   |
-| `accent.text` on `bg.panel`                                                        | 10.2                  |
-| `accent.line` on `bg.panel`                                                        | 4.8                   |
+| Black (`#0B0B0D`) on `accent.solid`                                                | 15.1                   |
+| `accent.text` on `bg.panel`                                                       | 13.6                   |
+| `accent.line` on `bg.panel`                                                       | 13.6                   |
 | `status.live` on `bg.app`                                                          | 5.6                   |
 | White on `status.danger`                                                           | 5.3                   |
 
 **Rules**
 
-- One brand hue on both the app and the site. Red appears only for live state and stopping.
+- In the native app, Acid Lime is the only accent; red appears only for live state and stopping. The website palette is maintained separately.
 - The accent solid fill is used once per screen. Everything else that needs emphasis uses the outlined style.
 - The accent belongs at the key moment only. It is not spread across icons, badges, links and backgrounds.
 - No gradients, no glow, no blurred orbs, no glassmorphism.
@@ -451,7 +453,7 @@ Left: current state ("Not streaming" / "Streaming to <platform>"). Right, in thi
 - Disabled controls dim their icon along with their label.
 - Give icon-only buttons an accessible name (`aria-label="Hide Webcam"`) and a tooltip.
 
-**Logo mark:** The three concentric arcs next to the wordmark are brand artwork, not a Lucide icon. Keep them as a custom SVG in `accent.line`, and don't swap in `radio` or `wifi`. The mark and the accent must match the website's (decision 0.1).
+**Logo mark:** The three concentric arcs next to the wordmark are brand artwork, not a Lucide icon. Keep them as a custom SVG and don't swap in `radio` or `wifi`. The native desktop mark follows its Acid Lime accent; the website keeps its separately approved mark and palette.
 
 ---
 
