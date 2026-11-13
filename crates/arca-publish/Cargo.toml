@@ -1,0 +1,14 @@
+[package]
+name = "arca-publish"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+bytes = "1"
+rml_rtmp = "0.8"
+rustls = "0.23"
+url = "2"
+webpki-roots = "1"
+thiserror.workspace = true
+tracing.workspace = true
